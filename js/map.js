@@ -117,7 +117,7 @@ var renderOfferInfo = function (someOffer) {
   // TODO 
   offerElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + someOffer.offer.guests + ' гостей в ' + someOffer.offer.rooms + ' комнатах'; // Выведите количество гостей и комнат
   offerElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + someOffer.offer.checkin + ', выезд до ' + someOffer.offer.checkout; //  Время заезда и выезда
-  offerElement.querySelector('.lodge__features').innerHTML = '<span class="feature__image feature__image--' + someOffer.offer.features[0] + '"></span>'; // Выведите все доступные удобства 
+  offerElement.querySelector('.lodge__features').innerHTML = '<span class="feature__image feature__image--' + someOffer.offer.features[0] + '"></span>'; // Выведите все доступные удобства пустыми спанами с классом feature__image--название
   // TODO 
   offerElement.querySelector('.lodge__description').textContent = someOffer.offer.description;
 
