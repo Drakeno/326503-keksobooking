@@ -3,6 +3,8 @@ var TITLES = ['Большая уютная квартира', 'Маленька�
 var TYPES = ['flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEAUTURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PIN_HEIGHT = 75;
+var PIN_WIDTH = 56;
 
 var offers = createOffers();
 var map = document.querySelector('.tokyo__pin-map');
@@ -11,6 +13,7 @@ var offerPopupTemplate = document.querySelector('#lodge-template');
 var popupInfo = document.querySelector('.dialog__panel');
 var oldInfoNode = popupInfo.parentNode;
 var avatarImg = document.querySelector('.dialog__title img');
+
 
 // Функция вывода рандомного числа
 function randomInteger(min, max) {
@@ -51,13 +54,16 @@ function createOffers() {
   TITLES.sort(randomIndex); // Перемешиваем тайтлы для вызова в случайном порядке
 
   for (var i = 0; i < 8; i++) {
+    var xCoord = randomInteger(300, 900);
+    var yCoord = randomInteger(100, 500);
+
     offersArrays.push({
       author: {
         avatar: 'img/avatars/user0' + avatarNumbers[i] + '.png'
       },
       offer: {
         title: TITLES[i],
-        address: '{{location.x}}, {{location.y}}',
+        address: xCoord + ' ' + yCoord,
         price: randomInteger(1000, 1000000),
         type: TYPES[randomInteger(0, 2)],
         rooms: randomInteger(1, 5),
@@ -68,9 +74,10 @@ function createOffers() {
         description: ' ',
         photos: ''
       },
+      // TODO вычисление размера пина
       location: {
-        x: randomInteger(300, 900) - 28, // Координаты с учетом размеров метки pin
-        y: randomInteger(100, 500) + 75
+        x: xCoord - PIN_WIDTH / 2, // Координаты с учетом размеров pin
+        y: yCoord - PIN_HEIGHT
       }
     });
   }
@@ -100,25 +107,38 @@ map.appendChild(fragment);
 var renderOfferInfo = function (someOffer) {
   var offerElement = offerPopupTemplate.content.cloneNode(true); // Копируем шаблон #lodge-template
 
-  //  Конверт данных type в русскую интерпритацию - TRAVIS не разрешает столь колхозное переназначение ruType :(
-  //  var ruType = someOffer.offer.type;
-  //  if (ruType === 'flat') {
-  //    ruType = 'Квартира';
-  //  } else if (ruType === 'bungalo') {
-  //    ruType = 'Бунгало';
-  //  } else {
-  //    ruType = 'Дом';
-  //  }
+  var features = '';
+  var length = someOffer.offer.features.length;
+  var j;
+  var type = '';
+
+  // Подгрузка иконок
+  for (j = 0; j < length; j++) {
+    features += '<span class="feature__image feature__image--' + someOffer.offer.features[j] + '"></span>';
+  }
+
+  // Замена слов типа жилья
+  switch (someOffer.offer.type) {
+    case 'flat':
+      type = 'Квартира';
+      break;
+    case 'house':
+      type = 'Дом';
+      break;
+    case 'bungalo':
+      type = 'Бунгало';
+      break;
+    default:
+      break;
+  }
 
   offerElement.querySelector('.lodge__title').textContent = someOffer.offer.title; // Выведите заголовок объявления offer.title в блок .lodge__title
   offerElement.querySelector('.lodge__address').textContent = someOffer.offer.address; // Выведите заголовок объявления offer.title в блок .lodge__address
   offerElement.querySelector('.lodge__price').textContent = someOffer.offer.price + '₽/ночь'; // Выведите цену offer.price в блок lodge__price строкой вида {{offer.price}}&#x20bd;/ночь
-  offerElement.querySelector('.lodge__type').textContent = someOffer.offer.type; // В блок lodge__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalo, Дом для house
-  // TODO 
+  offerElement.querySelector('.lodge__type').textContent = type; // В блок lodge__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalo, Дом для house
   offerElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + someOffer.offer.guests + ' гостей в ' + someOffer.offer.rooms + ' комнатах'; // Выведите количество гостей и комнат
   offerElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + someOffer.offer.checkin + ', выезд до ' + someOffer.offer.checkout; //  Время заезда и выезда
-  offerElement.querySelector('.lodge__features').innerHTML = '<span class="feature__image feature__image--' + someOffer.offer.features[0] + '"></span>'; // Выведите все доступные удобства пустыми спанами с классом feature__image--название
-  // TODO 
+  offerElement.querySelector('.lodge__features').innerHTML = features; // Выведите все доступные удобства пустыми спанами с классом feature__image--название
   offerElement.querySelector('.lodge__description').textContent = someOffer.offer.description;
 
   return offerElement;
