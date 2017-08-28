@@ -88,7 +88,7 @@ var renderOfferPin = function (offer) {
   var newPoint = document.createElement('div');
 
   newPoint.className = 'pin';
-  newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px';  // Координаты появления с учетом размеров метки
+  newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
   newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
   newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
 
