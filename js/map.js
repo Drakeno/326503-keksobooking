@@ -74,10 +74,9 @@ function createOffers() {
         description: ' ',
         photos: ''
       },
-      // TODO вычисление размера пина
       location: {
-        x: xCoord - PIN_WIDTH / 2, // Координаты с учетом размеров pin
-        y: yCoord - PIN_HEIGHT
+        x: xCoord,
+        y: yCoord
       }
     });
   }
@@ -89,8 +88,8 @@ var renderOfferPin = function (offer) {
   var newPoint = document.createElement('div');
 
   newPoint.className = 'pin';
-  newPoint.style.left = offer.location.x + 'px';
-  newPoint.style.top = offer.location.y + 'px';
+  newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px';  // Координаты появления с учетом размеров метки
+  newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
   newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
 
   return newPoint;
