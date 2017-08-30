@@ -17,6 +17,14 @@ var offerInfoClose = offerInfo.querySelector('.dialog__close');
 var avatarImg = offerInfo.querySelector('.dialog__title img');
 var selectedPin;
 
+var userForm = document.querySelector('.notice__form');
+var timeIn = userForm.querySelector('#timein');
+var timeOut = userForm.querySelector('#timeout');
+var houseType = userForm.querySelector('#type');
+var housePrice = userForm.querySelector('#price');
+var houseCapacity = userForm.querySelector('#capacity');
+var houseRooms = userForm.querySelector('#room_number');
+
 // Закрытие окна на ESC
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -239,3 +247,61 @@ offerInfoClose.addEventListener('keydown', function (evt) {
     closePopup();
   }
 });
+
+
+// Подстраивание селектов заезда/выезда друг под друга
+timeOut.onchange = function () {
+  timeIn.value = timeOut.value;
+};
+
+timeIn.onchange = function () {
+  timeOut.value = timeIn.value;
+};
+
+
+// Синхронизация типа жилья с минимальной ценой
+houseType.onchange = function () {
+  if (houseType.value === 'flat') {
+    housePrice.min = 1000;
+    housePrice.value = 1000; // TODO Не уверен, что value тоже стоит менять
+  } else if (houseType.value === 'house') {
+    housePrice.min = 5000;
+    housePrice.value = 5000;
+  } else if (houseType.value === 'palace') {
+    housePrice.min = 10000;
+  } else {
+    housePrice.min = 0;
+    housePrice.value = 0;
+  }
+};
+
+// Подбор типа жилься в зависимости от цены
+housePrice.addEventListener('input', function () {
+  if (housePrice.value >= 1000 && housePrice.value < 5000) {
+    houseType.value = 'flat';
+  } else if (housePrice.value >= 5000 && housePrice.value < 10000) {
+    houseType.value = 'house';
+  } else if (housePrice.value >= 10000) {
+    houseType.value = 'palace';
+  } else {
+    houseType.value = 'bungalo';
+  }
+});
+
+// TODO Подбор количества мест под количество комнат
+houseRooms.onchange = function () {
+  if (houseRooms.value === 1) {
+    houseCapacity.value = 1;
+  }
+  if (houseRooms.value === 100) {
+    houseCapacity.value = 0;
+  }
+};
+
+// TODO Подбор количества комнат под количество мест
+houseCapacity.onchange = function () {
+
+};
+
+// 4 ????? При отправке формы нужно проверить правильно ли заполнены поля и если какие-то поля заполнены неверно, то нужно выделить неверные поля красной рамкой
+// 5 ????? После отправки формы все значения должны сбрасываться на те, что были по умолчанию
