@@ -15,7 +15,6 @@ var offerPopupTemplate = document.querySelector('#lodge-template');
 var offerInfo = document.querySelector('.dialog');
 var offerInfoClose = offerInfo.querySelector('.dialog__close');
 var avatarImg = offerInfo.querySelector('.dialog__title img');
-var pinsOnMap = document.getElementsByClassName("pin");
 var selectedPin;
 
 // Закрытие окна на ESC
@@ -29,10 +28,6 @@ var onPopupEscPress = function (evt) {
 var openPopup = function () {
   offerInfo.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
-};
-
-var pinChange = function () {
-  this.className += ' pin--active';
 };
 
 // Функция закрытия попапа + удаление Esc листнера + удаление активного pin
@@ -181,19 +176,16 @@ var renderOfferInfo = function (someOffer) {
 };
 
 
-
 // Функция для вывода инфы в диалоговое окно
-function createDialogInfo(i) {
-  var someOffer = offers[i];
+function createDialogInfo(k) {
+  var someOffer = offers[k];
   var offerInfoContent = offerInfo.querySelector('.dialog__panel');
   var oldInfoNode = offerInfoContent.parentNode;
-  
   fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
   oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
 
   avatarImg.src = someOffer.author.avatar;
 }
-
 
 // Закрываем всплывающее окно по дефолту
 offerInfo.classList.add('hidden');
@@ -204,9 +196,10 @@ map.addEventListener('click', function () {
 
   while (target !== map) {
     if (target.className === 'pin') {
-      for (var i = 0; i < map.children.length; i++) {
-        if (map.children[i] === target)
-          createDialogInfo(i-1); // Компенсация main-pin
+      for (var l = 0; l < map.children.length; l++) {
+        if (map.children[l] === target) {
+          createDialogInfo(l - 1); // Компенсация main-pin
+        }
       }
       highlight(target);
       openPopup();
@@ -222,9 +215,10 @@ map.addEventListener('keydown', function (evt) {
 
   while (target !== map) {
     if (target.className === 'pin' && evt.keyCode === ENTER_KEYCODE) {
-      for (var i = 0; i < map.children.length; i++) {
-        if (map.children[i] === target)
-          createDialogInfo(i-1); // Компенсация main-pin
+      for (var m = 0; m < map.children.length; m++) {
+        if (map.children[m] === target) {
+          createDialogInfo(m - 1); // Компенсация main-pin
+        }
       }
       highlight(target);
       openPopup();
