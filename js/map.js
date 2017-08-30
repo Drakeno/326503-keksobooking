@@ -269,6 +269,7 @@ houseType.onchange = function () {
     housePrice.value = 5000;
   } else if (houseType.value === 'palace') {
     housePrice.min = 10000;
+    housePrice.value = 10000;
   } else {
     housePrice.min = 0;
     housePrice.value = 0;
