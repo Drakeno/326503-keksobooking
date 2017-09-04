@@ -190,43 +190,29 @@ function createDialogInfo(k) {
 // Закрываем всплывающее окно по дефолту
 offerInfo.classList.add('hidden');
 
-// Отслеживаем клики по пинам на карте и подсвечиваем, открываем диалоговое окно
-map.addEventListener('click', function () {
+// Функция для подсветки, открытия диалогового окна
+function setView(event) {
   var target = event.target;
-
-  while (target !== map) {
-    if (target.className === 'pin') {
-      for (var l = 0; l < map.children.length; l++) {
-        if (map.children[l] === target) {
-          createDialogInfo(l - 1); // Компенсация main-pin
+  if (event.type === 'click' || event.keyCode === ENTER_KEYCODE) {
+    while (target !== map) {
+      if (target.className === 'pin') {
+        for (var l = 0; l < map.children.length; l++) {
+          if (map.children[l] === target) {
+            createDialogInfo(l - 1); // Компенсация main-pin
+          }
         }
+        highlight(target);
+        openPopup();
+        return;
       }
-      highlight(target);
-      openPopup();
-      return;
+      target = target.parentNode;
     }
-    target = target.parentNode;
   }
-});
+}
 
-// То же самое, но отслеживаем теперь нажатия Enter по элементам
-map.addEventListener('keydown', function (evt) {
-  var target = event.target;
-
-  while (target !== map) {
-    if (target.className === 'pin' && evt.keyCode === ENTER_KEYCODE) {
-      for (var m = 0; m < map.children.length; m++) {
-        if (map.children[m] === target) {
-          createDialogInfo(m - 1); // Компенсация main-pin
-        }
-      }
-      highlight(target);
-      openPopup();
-      return;
-    }
-    target = target.parentNode;
-  }
-});
+// Отслеживаем клики + enter по пинам на карте
+map.addEventListener('click', setView, false);
+map.addEventListener('keydown', setView, false);
 
 // Закрытие на крестик
 offerInfoClose.addEventListener('click', function () {
