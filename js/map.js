@@ -5,15 +5,46 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEAUTURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PIN_HEIGHT = 75;
 var PIN_WIDTH = 56;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var offers = createOffers();
 var map = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 var offerPopupTemplate = document.querySelector('#lodge-template');
-var popupInfo = document.querySelector('.dialog__panel');
-var oldInfoNode = popupInfo.parentNode;
-var avatarImg = document.querySelector('.dialog__title img');
+var offerInfo = document.querySelector('.dialog');
+var offerInfoClose = offerInfo.querySelector('.dialog__close');
+var avatarImg = offerInfo.querySelector('.dialog__title img');
+var selectedPin;
 
+// Закрытие окна на ESC
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+// Функция открытия попапа + добавление Esc листнера + Добавление активного класса
+var openPopup = function () {
+  offerInfo.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+// Функция закрытия попапа + удаление Esc листнера + удаление активного pin
+var closePopup = function () {
+  offerInfo.classList.add('hidden');
+  selectedPin.classList.remove('pin--active');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+// Функция для активации pin и деактивации другого
+function highlight(node) {
+  if (selectedPin) {
+    selectedPin.classList.remove('pin--active');
+  }
+  selectedPin = node;
+  selectedPin.classList.add('pin--active');
+}
 
 // Функция вывода рандомного числа
 function randomInteger(min, max) {
@@ -88,6 +119,7 @@ var renderOfferPin = function (offer) {
   var newPoint = document.createElement('div');
 
   newPoint.className = 'pin';
+  newPoint.tabIndex = '0';
   newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
   newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
   newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
@@ -143,10 +175,53 @@ var renderOfferInfo = function (someOffer) {
   return offerElement;
 };
 
-var someOffer = offers[0]; // Для выполнения функции только на одном первом объекте
 
-fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
-oldInfoNode.replaceChild(fragment, popupInfo); // Заменяем данные в существующем блоке dialog__panel
+// Функция для вывода инфы в диалоговое окно
+function createDialogInfo(k) {
+  var someOffer = offers[k];
+  var offerInfoContent = offerInfo.querySelector('.dialog__panel');
+  var oldInfoNode = offerInfoContent.parentNode;
+  fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
+  oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
 
-// Меняем аватарку в блоке dialog__title img
-avatarImg.src = someOffer.author.avatar;
+  avatarImg.src = someOffer.author.avatar;
+}
+
+// Закрываем всплывающее окно по дефолту
+offerInfo.classList.add('hidden');
+
+// Функция для подсветки, открытия диалогового окна
+function setView(event) {
+  var target = event.target;
+  if (event.type === 'click' || event.keyCode === ENTER_KEYCODE) {
+    while (target !== map) {
+      if (target.className === 'pin') {
+        for (var l = 0; l < map.children.length; l++) {
+          if (map.children[l] === target) {
+            createDialogInfo(l - 1); // Компенсация main-pin
+          }
+        }
+        highlight(target);
+        openPopup();
+        return;
+      }
+      target = target.parentNode;
+    }
+  }
+}
+
+// Отслеживаем клики + enter по пинам на карте
+map.addEventListener('click', setView, false);
+map.addEventListener('keydown', setView, false);
+
+// Закрытие на крестик
+offerInfoClose.addEventListener('click', function () {
+  closePopup();
+});
+
+// Закрытие крестика на ENTER в фокусе
+offerInfoClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
