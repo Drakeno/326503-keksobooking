@@ -273,13 +273,11 @@ housePrice.addEventListener('input', function () {
   }
 });
 
-// Подбор количества мест под количество комнат
-
-//Количество комнат связано с количеством гостей:
-//1 комната — «для одного гостя»
-//2 комнаты — «для 2-х или 1-го гостя»
-//3 комнаты — «для 2-х, 1-го или 3-х гостей»
-//100 комнат — «не для гостей»
+// Количество комнат связано с количеством гостей:
+// 1 комната — «для одного гостя»
+// 2 комнаты — «для 2-х или 1-го гостя»
+// 3 комнаты — «для 2-х, 1-го или 3-х гостей»
+// 100 комнат — «не для гостей»
 
 var roomNumber = userForm.querySelector('#room_number');
 var roomCapacity = userForm.querySelector('#capacity');
@@ -287,44 +285,38 @@ var roomCapacityOption = roomCapacity.getElementsByTagName('option');
 var roomNumberOption = roomNumber.getElementsByTagName('option');
 var sbmButton = userForm.querySelector('.form__submit');
 
+// Подбор количества мест под количество комнат
 roomNumber.onchange = function () {
-  for (var i = 0; i < roomCapacityOption.length; i++) {
-    roomCapacityOption[i].disabled = true;
-    if (roomNumber.value === '1' && roomCapacityOption[i].value === '1') {
-      roomCapacityOption[i].disabled = false;
-      roomCapacityOption[i].selected = true;
-    } else if (roomNumber.value === '2' && (roomCapacityOption[i].value === '1' || roomCapacityOption[i].value === '2')) {
-      roomCapacityOption[i].disabled = false;
-      roomCapacityOption[i].selected = true;
-    } else if (roomNumber.value === '3' && (roomCapacityOption[i].value === '1' || roomCapacityOption[i].value === '2' || roomCapacityOption[i].value === '3')) {
-      roomCapacityOption[i].disabled = false;
-      roomCapacityOption[i].selected = true;
-    } else if (roomNumber.value === '100' && roomCapacityOption[i].value === '0') {
-      roomCapacityOption[i].disabled = false;
-      roomCapacityOption[i].selected = true;
+  for (var n = 0; n < roomCapacityOption.length; n++) {
+    roomCapacityOption[n].disabled = true;
+    if (roomNumber.value === '1' && roomCapacityOption[n].value === '1') {
+      roomCapacityOption[n].disabled = false;
+      roomCapacityOption[n].selected = true;
+    } else if (roomNumber.value === '2' && (roomCapacityOption[n].value === '1' || roomCapacityOption[n].value === '2')) {
+      roomCapacityOption[n].disabled = false;
+    } else if (roomNumber.value === '3' && (roomCapacityOption[n].value === '1' || roomCapacityOption[n].value === '2' || roomCapacityOption[n].value === '3')) {
+      roomCapacityOption[n].disabled = false;
+    } else if (roomNumber.value === '100' && roomCapacityOption[n].value === '0') {
+      roomCapacityOption[n].disabled = false;
+      roomCapacityOption[n].selected = true;
     }
   }
 };
 
 // Подбор количества комнат под количество мест
 roomCapacity.onchange = function () {
-for (var i = 0; i < roomNumberOption.length; i++) {
-    roomNumberOption[i].disabled = true;
-    if (roomNumberOption[i].value === '1' && roomCapacity.value === '1') {
-      roomNumberOption[i].disabled = false;
-      roomNumberOption[i].selected = true;
-    }
-    else if (roomCapacity.value === '2' && (roomNumberOption[i].value === '2' || roomNumberOption[i].value === '3' )) {
-      roomNumberOption[i].disabled = false;
-      roomNumberOption[i].selected = true;
-    }
-    else if (roomCapacity.value === '3' && roomNumberOption[i].value === '3') {
-      roomNumberOption[i].disabled = false;
-      roomNumberOption[i].selected = true;
-    }
-    else if (roomCapacity.value === '0' && roomNumberOption[i].value === '100') {
-      roomNumberOption[i].disabled = false;
-      roomNumberOption[i].selected = true;
+  for (var m = 0; m < roomNumberOption.length; m++) {
+    roomNumberOption[m].disabled = true;
+    if (roomNumberOption[m].value === '1' && roomCapacity.value === '1') {
+      roomNumberOption[m].disabled = false;
+      roomNumberOption[m].selected = true;
+    } else if (roomCapacity.value === '2' && (roomNumberOption[m].value === '2' || roomNumberOption[m].value === '3')) {
+      roomNumberOption[m].disabled = false;
+    } else if (roomCapacity.value === '3' && roomNumberOption[m].value === '3') {
+      roomNumberOption[m].disabled = false;
+    } else if (roomCapacity.value === '0' && roomNumberOption[m].value === '100') {
+      roomNumberOption[m].disabled = false;
+      roomNumberOption[m].selected = true;
     }
   }
 };
