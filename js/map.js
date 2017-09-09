@@ -22,8 +22,6 @@ var timeIn = userForm.querySelector('#timein');
 var timeOut = userForm.querySelector('#timeout');
 var houseType = userForm.querySelector('#type');
 var housePrice = userForm.querySelector('#price');
-var houseCapacity = userForm.querySelector('#capacity');
-var houseRooms = userForm.querySelector('#room_number');
 
 // Закрытие окна на ESC
 var onPopupEscPress = function (evt) {
@@ -275,20 +273,63 @@ housePrice.addEventListener('input', function () {
   }
 });
 
-// TODO Подбор количества мест под количество комнат
-houseRooms.onchange = function () {
-  if (houseRooms.value === 1) {
-    houseCapacity.value = 1;
-  }
-  if (houseRooms.value === 100) {
-    houseCapacity.value = 0;
+// Подбор количества мест под количество комнат
+
+//Количество комнат связано с количеством гостей:
+//1 комната — «для одного гостя»
+//2 комнаты — «для 2-х или 1-го гостя»
+//3 комнаты — «для 2-х, 1-го или 3-х гостей»
+//100 комнат — «не для гостей»
+
+var roomNumber = userForm.querySelector('#room_number');
+var roomCapacity = userForm.querySelector('#capacity');
+var roomCapacityOption = roomCapacity.getElementsByTagName('option');
+var roomNumberOption = roomNumber.getElementsByTagName('option');
+var sbmButton = userForm.querySelector('.form__submit');
+
+roomNumber.onchange = function () {
+  for (var i = 0; i < roomCapacityOption.length; i++) {
+    roomCapacityOption[i].disabled = true;
+    if (roomNumber.value === '1' && roomCapacityOption[i].value === '1') {
+      roomCapacityOption[i].disabled = false;
+      roomCapacityOption[i].selected = true;
+    } else if (roomNumber.value === '2' && (roomCapacityOption[i].value === '1' || roomCapacityOption[i].value === '2')) {
+      roomCapacityOption[i].disabled = false;
+      roomCapacityOption[i].selected = true;
+    } else if (roomNumber.value === '3' && (roomCapacityOption[i].value === '1' || roomCapacityOption[i].value === '2' || roomCapacityOption[i].value === '3')) {
+      roomCapacityOption[i].disabled = false;
+      roomCapacityOption[i].selected = true;
+    } else if (roomNumber.value === '100' && roomCapacityOption[i].value === '0') {
+      roomCapacityOption[i].disabled = false;
+      roomCapacityOption[i].selected = true;
+    }
   }
 };
 
-// TODO Подбор количества комнат под количество мест
-houseCapacity.onchange = function () {
-
+// Подбор количества комнат под количество мест
+roomCapacity.onchange = function () {
+for (var i = 0; i < roomNumberOption.length; i++) {
+    roomNumberOption[i].disabled = true;
+    if (roomNumberOption[i].value === '1' && roomCapacity.value === '1') {
+      roomNumberOption[i].disabled = false;
+      roomNumberOption[i].selected = true;
+    }
+    else if (roomCapacity.value === '2' && (roomNumberOption[i].value === '2' || roomNumberOption[i].value === '3' )) {
+      roomNumberOption[i].disabled = false;
+      roomNumberOption[i].selected = true;
+    }
+    else if (roomCapacity.value === '3' && roomNumberOption[i].value === '3') {
+      roomNumberOption[i].disabled = false;
+      roomNumberOption[i].selected = true;
+    }
+    else if (roomCapacity.value === '0' && roomNumberOption[i].value === '100') {
+      roomNumberOption[i].disabled = false;
+      roomNumberOption[i].selected = true;
+    }
+  }
 };
 
-// 4 ????? При отправке формы нужно проверить правильно ли заполнены поля и если какие-то поля заполнены неверно, то нужно выделить неверные поля красной рамкой
-// 5 ????? После отправки формы все значения должны сбрасываться на те, что были по умолчанию
+// 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
+sbmButton.onclick = function () {
+  userForm.reset();
+};
