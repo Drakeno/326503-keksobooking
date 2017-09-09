@@ -6,6 +6,10 @@
   var ENTER_KEYCODE = 13;
   var offerInfo = document.querySelector('.dialog');
   var offerInfoClose = offerInfo.querySelector('.dialog__close');
+  var MAIN_PIN_HEIGHT = 75;
+  var MAIN_PIN_WIDTH = 94;
+  var pinMain = map.querySelector('.pin__main');
+  var formAddress = document.querySelector('#address');
 
   // Функция для подсветки, открытия диалогового окна
   function setView(event) {
@@ -67,8 +71,48 @@
     }
   });
 
+  //Активируем возможность перемещения главного пина
+  pinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+
+      formAddress.value = 'x:' + (parseInt(pinMain.style.left) + MAIN_PIN_WIDTH / 2) + ', y: ' + (parseInt(pinMain.style.top) + MAIN_PIN_HEIGHT);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 })();
 
 
 // TODO переменные offerInfo, fragment, map - как бы их эффективнее использовать и не повторять
 // TODO Трабл с selectedPin после разделения
+// TODO Дополнительно: вместо блокирования ввода поля адреса — синхронизировать координаты, введенные в поле адреса, с положением пина на карте
+// TODO formAddress

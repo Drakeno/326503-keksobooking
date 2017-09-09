@@ -7,15 +7,15 @@ window.offerPin = (function () {
   var fragment = document.createDocumentFragment();
   var map = document.querySelector('.tokyo__pin-map');
   var selectedPin;
-
+ 
   // Рендерим точки
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
 
     newPoint.className = 'pin';
     newPoint.tabIndex = '0';
-    newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
-    newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
+    newPoint.style.left = offer.location.x + PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
+    newPoint.style.top = offer.location.y + PIN_HEIGHT + 'px';
     newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
 
     return newPoint;
@@ -28,7 +28,7 @@ window.offerPin = (function () {
 
   map.appendChild(fragment);
 
-  return {
+    return {
     // Функция для активации pin и деактивации другого
     pinLighted: function highlight(node) {
       if (selectedPin) {
