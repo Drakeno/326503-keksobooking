@@ -7,7 +7,7 @@ window.offerPin = (function () {
   var fragment = document.createDocumentFragment();
   var map = document.querySelector('.tokyo__pin-map');
   var selectedPin;
- 
+
   // Рендерим точки
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
@@ -28,7 +28,7 @@ window.offerPin = (function () {
 
   map.appendChild(fragment);
 
-    return {
+  return {
     // Функция для активации pin и деактивации другого
     pinLighted: function highlight(node) {
       if (selectedPin) {

@@ -71,7 +71,7 @@
     }
   });
 
-  //Активируем возможность перемещения главного пина
+  // Активируем возможность перемещения главного пина
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -96,7 +96,7 @@
       pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
       pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
 
-      formAddress.value = 'x:' + (parseInt(pinMain.style.left) + MAIN_PIN_WIDTH / 2) + ', y: ' + (parseInt(pinMain.style.top) + MAIN_PIN_HEIGHT);
+      formAddress.value = 'x:' + (parseInt(pinMain.style.left, 10) + MAIN_PIN_WIDTH / 2) + ', y: ' + (parseInt(pinMain.style.top, 10) + MAIN_PIN_HEIGHT);
     };
 
     var onMouseUp = function (upEvt) {
@@ -110,7 +110,6 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 })();
-
 
 // TODO переменные offerInfo, fragment, map - как бы их эффективнее использовать и не повторять
 // TODO Трабл с selectedPin после разделения
