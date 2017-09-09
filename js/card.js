@@ -7,7 +7,7 @@ window.offerCard = (function () {
   var offerInfo = document.querySelector('.dialog');
   var avatarImg = offerInfo.querySelector('.dialog__title img');
 
-// Рендерим инфо из объекта в шаблон
+  // Рендерим инфо из объекта в шаблон
   var renderOfferInfo = function (someOffer) {
     var offerElement = offerPopupTemplate.content.cloneNode(true); // Копируем шаблон #lodge-template
 
@@ -48,7 +48,7 @@ window.offerCard = (function () {
     return offerElement;
   };
 
-// Функция для вывода инфы в диалоговое окно
+  // Функция для вывода инфы в диалоговое окно
   return {
     dialogAppear: function createDialogInfo(k) {
       var someOffer = offers[k];

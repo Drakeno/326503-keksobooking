@@ -30,36 +30,37 @@
   // Закрываем всплывающее окно по дефолту
   offerInfo.classList.add('hidden');
 
-// Закрытие окна на ESC
+  // Закрытие окна на ESC
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       closePopup();
     }
   };
 
-// Функция открытия попапа + добавление Esc листнера + Добавление активного класса
+  // Функция открытия попапа + добавление Esc листнера + Добавление активного класса
   var openPopup = function () {
     offerInfo.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-// Функция закрытия попапа + удаление Esc листнера + удаление активного pin
+  // Функция закрытия попапа + удаление Esc листнера + удаление активного pin
   var closePopup = function () {
+    var selectedPin = document.querySelector('.pin--active');
     offerInfo.classList.add('hidden');
     selectedPin.classList.remove('pin--active');
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-// Отслеживаем клики + enter по пинам на карте
+  // Отслеживаем клики + enter по пинам на карте
   map.addEventListener('click', setView, false);
   map.addEventListener('keydown', setView, false);
 
-// Закрытие на крестик
+  // Закрытие на крестик
   offerInfoClose.addEventListener('click', function () {
     closePopup();
   });
 
-// Закрытие крестика на ENTER в фокусе
+  // Закрытие крестика на ENTER в фокусе
   offerInfoClose.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       closePopup();
@@ -69,9 +70,5 @@
 })();
 
 
-//TODO переменные offerInfo, fragment, map - как бы их эффективнее использовать и не повторять
-//TODO Трабл с selectedPin после разделения
-
-
-
-
+// TODO переменные offerInfo, fragment, map - как бы их эффективнее использовать и не повторять
+// TODO Трабл с selectedPin после разделения

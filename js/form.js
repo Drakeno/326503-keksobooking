@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
 
   var userForm = document.querySelector('.notice__form');
@@ -11,7 +13,7 @@
   var roomNumberOption = roomNumber.getElementsByTagName('option');
   var sbmButton = userForm.querySelector('.form__submit');
 
-// Подстраивание селектов заезда/выезда друг под друга
+  // Подстраивание селектов заезда/выезда друг под друга
   timeOut.onchange = function () {
     timeIn.value = timeOut.value;
   };
@@ -21,7 +23,7 @@
   };
 
 
-// Синхронизация типа жилья с минимальной ценой
+  // Синхронизация типа жилья с минимальной ценой
   houseType.onchange = function () {
     if (houseType.value === 'flat') {
       housePrice.min = 1000;
@@ -38,7 +40,7 @@
     }
   };
 
-// Подбор типа жилься в зависимости от цены
+  // Подбор типа жилься в зависимости от цены
   housePrice.addEventListener('input', function () {
     if (housePrice.value >= 1000 && housePrice.value < 5000) {
       houseType.value = 'flat';
@@ -50,12 +52,6 @@
       houseType.value = 'bungalo';
     }
   });
-
-// Количество комнат связано с количеством гостей:
-// 1 комната — «для одного гостя»
-// 2 комнаты — «для 2-х или 1-го гостя»
-// 3 комнаты — «для 2-х, 1-го или 3-х гостей»
-// 100 комнат — «не для гостей»
 
   // Подбор количества мест под количество комнат
   roomNumber.onchange = function () {
@@ -75,7 +71,7 @@
     }
   };
 
-// Подбор количества комнат под количество мест
+  // Подбор количества комнат под количество мест
   roomCapacity.onchange = function () {
     for (var m = 0; m < roomNumberOption.length; m++) {
       roomNumberOption[m].disabled = true;
@@ -93,7 +89,7 @@
     }
   };
 
-// 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
+  // 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
   sbmButton.onclick = function () {
     userForm.reset();
   };

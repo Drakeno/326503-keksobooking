@@ -8,7 +8,7 @@ window.offerPin = (function () {
   var map = document.querySelector('.tokyo__pin-map');
   var selectedPin;
 
-// Рендерим точки
+  // Рендерим точки
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
 
@@ -21,7 +21,7 @@ window.offerPin = (function () {
     return newPoint;
   };
 
-// Ставим полученные точки
+  // Ставим полученные точки
   for (var i = 0; i < 8; i++) {
     fragment.appendChild(renderOfferPin(offers[i]));
   }

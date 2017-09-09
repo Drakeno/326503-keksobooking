@@ -7,17 +7,17 @@
   var FEAUTURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   window.offers = createOffers();
 
-// Функция вывода рандомного числа
+  // Функция вывода рандомного числа
   function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-// Функция для рандома индексов сортировки
+  // Функция для рандома индексов сортировки
   function randomIndex() {
     return Math.random() - 0.5;
   }
 
-// Функция вывода массива рандомных чисел в заданном диапазоне
+  // Функция вывода массива рандомных чисел в заданном диапазоне
   function shuffleNumbers(a, b) {
     var newNumbers = [];
     for (var i = a; i < b + 1; i++) {
@@ -27,7 +27,7 @@
     return newNumbers;
   }
 
-// Функция вывода случайного количества случайных строк из массива
+  // Функция вывода случайного количества случайных строк из массива
   function limitedData(massiveName) {
     massiveName.sort(randomIndex);
     var newMassive = [];
@@ -39,7 +39,7 @@
     return newMassive;
   }
 
-// Задаем JS-Объекты, данные
+  // Задаем JS-Объекты, данные
   function createOffers() {
     var offersArrays = [];
     var avatarNumbers = shuffleNumbers(1, 8); // Создаем массив случайных чисел для вызова номера картинки в случайном порядке без повтора
@@ -75,4 +75,3 @@
     return offersArrays;
   }
 })();
-  
