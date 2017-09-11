@@ -93,4 +93,12 @@
   sbmButton.onclick = function () {
     userForm.reset();
   };
+
+  // Следим за отправкой формы и навешиваем нужный статус
+  userForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(userForm), function (onError) {
+      userForm.reset();
+    });
+    evt.preventDefault();
+  });
 })();
