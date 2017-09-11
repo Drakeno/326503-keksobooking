@@ -13,7 +13,7 @@
   var roomNumberOption = roomNumber.getElementsByTagName('option');
   var sbmButton = userForm.querySelector('.form__submit');
 
-  // Подстраивание селектов заезда/выезда друг под друга
+  // TODO отдать это synchronize-fields.js Подстраивание селектов заезда/выезда друг под друга
   timeOut.onchange = function () {
     timeIn.value = timeOut.value;
   };
@@ -23,7 +23,7 @@
   };
 
 
-  // Синхронизация типа жилья с минимальной ценой
+  // TODO отдать это synchronize-fields.js Синхронизация типа жилья с минимальной ценой
   houseType.onchange = function () {
     if (houseType.value === 'flat') {
       housePrice.min = 1000;
@@ -40,7 +40,7 @@
     }
   };
 
-  // Подбор типа жилься в зависимости от цены
+  // TODO отдать это synchronize-fields.js Подбор типа жилься в зависимости от цены
   housePrice.addEventListener('input', function () {
     if (housePrice.value >= 1000 && housePrice.value < 5000) {
       houseType.value = 'flat';

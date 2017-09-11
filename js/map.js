@@ -11,53 +11,9 @@
   var pinMain = map.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
 
-  // Функция для подсветки, открытия диалогового окна
-  function setView(event) {
-    var target = event.target;
-    if (event.type === 'click' || event.keyCode === ENTER_KEYCODE) {
-      while (target !== map) {
-        if (target.className === 'pin') {
-          for (var l = 0; l < map.children.length; l++) {
-            if (map.children[l] === target) {
-              window.offerCard.dialogAppear(l - 1); // Компенсация main-pin
-            }
-          }
-          window.offerPin.pinLighted(target);
-          openPopup();
-          return;
-        }
-        target = target.parentNode;
-      }
-    }
-  }
-
-  // Закрываем всплывающее окно по дефолту
-  offerInfo.classList.add('hidden');
-
-  // Закрытие окна на ESC
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
-  };
-
-  // Функция открытия попапа + добавление Esc листнера + Добавление активного класса
-  var openPopup = function () {
-    offerInfo.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-  };
-
-  // Функция закрытия попапа + удаление Esc листнера + удаление активного pin
-  var closePopup = function () {
-    var selectedPin = document.querySelector('.pin--active');
-    offerInfo.classList.add('hidden');
-    selectedPin.classList.remove('pin--active');
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
-
   // Отслеживаем клики + enter по пинам на карте
-  map.addEventListener('click', setView, false);
-  map.addEventListener('keydown', setView, false);
+  map.addEventListener('click', window.showCard.showCard, false);
+  map.addEventListener('keydown', window.showCard.showCard, false);
 
   // Закрытие на крестик
   offerInfoClose.addEventListener('click', function () {
@@ -115,3 +71,4 @@
 // TODO Трабл с selectedPin после разделения
 // TODO Дополнительно: вместо блокирования ввода поля адреса — синхронизировать координаты, введенные в поле адреса, с положением пина на карте
 // TODO formAddress
+// TODO synchronize-fields
