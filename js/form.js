@@ -90,13 +90,13 @@
   };
 
   // 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
-  sbmButton.onclick = function () {
-    userForm.reset();
-  };
+  //  sbmButton.onclick = function () {
+  //  userForm.reset();
+  // };
 
   // Следим за отправкой формы и навешиваем нужный статус
   userForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(userForm), function (onError) {
+    window.upload.backendSave(new FormData(userForm), function (onError) {
       userForm.reset();
     });
     evt.preventDefault();

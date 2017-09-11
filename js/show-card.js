@@ -54,7 +54,7 @@ window.showCard = (function () {
           if (target.className === 'pin') {
             for (var l = 0; l < map.children.length; l++) {
               if (map.children[l] === target) {
-                window.offerCard.dialogAppear(l - 1); // Компенсация main-pin
+                window.offerCard.dialogAppear(l); // Компенсация main-pin
               }
             }
             window.offerPin.pinLighted(target);

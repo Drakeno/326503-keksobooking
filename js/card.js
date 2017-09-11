@@ -50,8 +50,8 @@ window.offerCard = (function () {
 
   // Функция для вывода инфы в диалоговое окно
   return {
-    dialogAppear: function createDialogInfo(k) {
-      var someOffer = offers[k];
+    dialogAppear: function (k) {
+      var someOffer = window.offers[k];
       var offerInfoContent = offerInfo.querySelector('.dialog__panel');
       var oldInfoNode = offerInfoContent.parentNode;
       fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
