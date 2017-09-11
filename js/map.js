@@ -2,10 +2,6 @@
 
 (function () {
   var map = document.querySelector('.tokyo__pin-map');
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
-  var offerInfo = document.querySelector('.dialog');
-  var offerInfoClose = offerInfo.querySelector('.dialog__close');
   var MAIN_PIN_HEIGHT = 75;
   var MAIN_PIN_WIDTH = 94;
   var pinMain = map.querySelector('.pin__main');
@@ -14,18 +10,6 @@
   // Отслеживаем клики + enter по пинам на карте
   map.addEventListener('click', window.showCard.showCard, false);
   map.addEventListener('keydown', window.showCard.showCard, false);
-
-  // Закрытие на крестик
-  offerInfoClose.addEventListener('click', function () {
-    closePopup();
-  });
-
-  // Закрытие крестика на ENTER в фокусе
-  offerInfoClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup();
-    }
-  });
 
   // Активируем возможность перемещения главного пина
   pinMain.addEventListener('mousedown', function (evt) {
