@@ -41,7 +41,6 @@ window.offerPin = (function () {
     node.style.right = 0;
     node.style.top = '100px';
     node.style.fontSize = '30px';
-
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
