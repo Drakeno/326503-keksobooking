@@ -1,5 +1,4 @@
 'use strict';
-/* global offers */
 
 window.offerCard = (function () {
   var offerPopupTemplate = document.querySelector('#lodge-template');

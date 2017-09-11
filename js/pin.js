@@ -1,5 +1,4 @@
 'use strict';
-/* global offers */
 
 window.offerPin = (function () {
   var PIN_HEIGHT = 75;

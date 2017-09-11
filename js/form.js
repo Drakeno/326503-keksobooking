@@ -11,7 +11,6 @@
   var roomCapacity = userForm.querySelector('#capacity');
   var roomCapacityOption = roomCapacity.getElementsByTagName('option');
   var roomNumberOption = roomNumber.getElementsByTagName('option');
-  var sbmButton = userForm.querySelector('.form__submit');
 
   // TODO отдать это synchronize-fields.js Подстраивание селектов заезда/выезда друг под друга
   timeOut.onchange = function () {
@@ -89,14 +88,9 @@
     }
   };
 
-  // 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
-  //sbmButton.onclick = function () {
-  //  userForm.reset();
-  //};
-
   // Следим за отправкой формы и навешиваем нужный статус
   userForm.addEventListener('submit', function (evt) {
-    window.backend.backendSave(new FormData(userForm), function (onError) {
+    window.backend.backendSave(new FormData(userForm), function () {
       userForm.reset();
     });
     evt.preventDefault();
