@@ -9,48 +9,35 @@
   var housePrice = userForm.querySelector('#price');
   var roomNumber = userForm.querySelector('#room_number');
   var roomCapacity = userForm.querySelector('#capacity');
+  var times = ['12:00', '13:00', '14:00'];
+  var types = ['flat', 'bungalo', 'house', 'palace'];
+  var prices = [1000, 0, 5000, 10000];
+  var rooms = ['1', '2', '3', '100'];
+  var guestsCapacity = ['1', '2', '3', '0'];
+
+  // синхронизация времени заезда/выезда
+  var setValue = function (element, value) {
+    element.value = value;
+  };
+
+  window.synchronizeFields(timeIn, timeOut, times, times, setValue, 'value');
+  window.synchronizeFields(timeOut, timeIn, times, times, setValue, 'value');
+
+  // синхронизация типов жилья и стоимости заезда/выезда
+
+  var setTypePrice = function (element, value) {
+    element.value = value;
+    element.min = value;
+  };
+
+  window.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
+
+  // Синхронизация количества комнат с гостями
+  //  window.synchronizeFields(roomNumber, roomCapacity, rooms, guestsCapacity, setValue);
+  // window.synchronizeFields(roomCapacity, roomNumber, guestsCapacity, rooms, setValue);
+
   var roomCapacityOption = roomCapacity.getElementsByTagName('option');
   var roomNumberOption = roomNumber.getElementsByTagName('option');
-
-  // TODO отдать это synchronize-fields.js Подстраивание селектов заезда/выезда друг под друга
-  timeOut.onchange = function () {
-    timeIn.value = timeOut.value;
-  };
-
-  timeIn.onchange = function () {
-    timeOut.value = timeIn.value;
-  };
-
-
-  // TODO отдать это synchronize-fields.js Синхронизация типа жилья с минимальной ценой
-  houseType.onchange = function () {
-    if (houseType.value === 'flat') {
-      housePrice.min = 1000;
-      housePrice.value = 1000; // TODO Не уверен, что value тоже стоит менять
-    } else if (houseType.value === 'house') {
-      housePrice.min = 5000;
-      housePrice.value = 5000;
-    } else if (houseType.value === 'palace') {
-      housePrice.min = 10000;
-      housePrice.value = 10000;
-    } else {
-      housePrice.min = 0;
-      housePrice.value = 0;
-    }
-  };
-
-  // TODO отдать это synchronize-fields.js Подбор типа жилься в зависимости от цены
-  housePrice.addEventListener('input', function () {
-    if (housePrice.value >= 1000 && housePrice.value < 5000) {
-      houseType.value = 'flat';
-    } else if (housePrice.value >= 5000 && housePrice.value < 10000) {
-      houseType.value = 'house';
-    } else if (housePrice.value >= 10000) {
-      houseType.value = 'palace';
-    } else {
-      houseType.value = 'bungalo';
-    }
-  });
 
   // Подбор количества мест под количество комнат
   roomNumber.onchange = function () {

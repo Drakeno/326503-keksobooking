@@ -46,29 +46,16 @@ window.offerPin = (function () {
 
   window.backend.backendLoad(successHandler, errorHandler);
 
-  return {
-    // Функция для активации pin и деактивации другого
-    pinLighted: function highlight(node) {
-      if (selectedPin) {
-        selectedPin.classList.remove('pin--active');
-      }
-      selectedPin = node;
-      selectedPin.classList.add('pin--active');
+  var highlight = function (node) {
+    if (selectedPin) {
+      selectedPin.classList.remove('pin--active');
     }
+    selectedPin = node;
+    selectedPin.classList.add('pin--active');
   };
 
-//  var updateOffers = function () {
-//    var houseFilter = document.querySelector('#housing_type');
-//    var priceFilter = document.querySelector('#housing_price');
-//
-//    var sameTypeOffers = offers.filter(function (it) {
-//      return it.type === houseFilter.value;
-//    });
-//    var samePriceOffers = offers.filter(function (it) {
-//      return it.price === priceFilter.value;
-//    });
-//
-//    window.backend.backendLoad(sameTypeOffers.concat(samePriceOffers).concat(offers));
-//    houseFilter.onchange = updateOffers();
-//  };
+  return {
+    // Функция для активации pin и деактивации другого
+    pinLighted: highlight
+  };
 })();

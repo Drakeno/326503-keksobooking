@@ -2,8 +2,11 @@
 
 (function () {
   var map = document.querySelector('.tokyo__pin-map');
-  var MAIN_PIN_HEIGHT = 75;
-  var MAIN_PIN_WIDTH = 94;
+  var mapArea = document.querySelector('.tokyo');
+  var pin = {
+    height: 75,
+    width: 94
+  };
   var pinMain = map.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
 
@@ -12,6 +15,17 @@
   map.addEventListener('keydown', window.showCard.showCard, false);
 
   // Активируем возможность перемещения главного пина
+
+  var pinAddressCoord = {
+    x: pinMain.offsetLeft + pin.width / 2,
+    y: pinMain.offsetTop + pin.height
+  };
+
+  var mapSize = {
+    width: mapArea.clientWidth,
+    height: mapArea.clientHeight
+  };
+
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -20,27 +34,38 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
+    var onMouseMove = function (moveEvent) {
+      moveEvent.preventDefault();
+
+      formAddress.style.boxShadow = '';
 
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        x: startCoords.x - moveEvent.clientX,
+        y: startCoords.y - moveEvent.clientY
       };
 
       startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+        x: moveEvent.clientX,
+        y: moveEvent.clientY
       };
 
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      // Изменяем значения адресного инпута
+      pinAddressCoord = {
+        x: pinMain.offsetLeft - shift.x + Math.floor(pin.width / 2),
+        y: pinMain.offsetTop - shift.y + pin.height
+      };
 
-      formAddress.value = 'x:' + (parseInt(pinMain.style.left, 10) + MAIN_PIN_WIDTH / 2) + ', y: ' + (parseInt(pinMain.style.top, 10) + MAIN_PIN_HEIGHT);
+      if (pinAddressCoord.x >= 0 && pinAddressCoord.x <= mapSize.width && pinAddressCoord.y >= 0 && pinAddressCoord.y <= mapSize.height) {
+        // Меняем положение пина в заданных границах
+        pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+        pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+
+        formAddress.value = 'x: ' + pinAddressCoord.x + ', y: ' + pinAddressCoord.y;
+      }
     };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
+    var onMouseUp = function (evt) {
+      evt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -51,6 +76,6 @@
   });
 })();
 
-// TODO переменные offerInfo, fragment, map - как бы их эффективнее использовать и не повторять
-// TODO formAddress элегантнее как-то?
-// TODO synchronize-fields
+// Как привязывать глобальные функции к селектам??
+// Как корректно выводить переменные в глобал? Или лучше в своих модулях свои переменные
+// Фильтр... тоже не понимаю, как привязать к селектам
