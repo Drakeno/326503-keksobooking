@@ -12,8 +12,8 @@
   var times = ['12:00', '13:00', '14:00'];
   var types = ['flat', 'bungalo', 'house', 'palace'];
   var prices = [1000, 0, 5000, 10000];
-  var rooms = ['1', '2', '3', '100'];
-  var guestsCapacity = ['1', '2', '3', '0'];
+  //  var rooms = ['1', '2', '3', '100'];
+  //  var guestsCapacity = ['1', '2', '3', '0'];
 
   // синхронизация времени заезда/выезда
   var setValue = function (element, value) {
@@ -77,9 +77,9 @@
 
   // Следим за отправкой формы и навешиваем нужный статус
   userForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
     window.backend.backendSave(new FormData(userForm), function () {
       userForm.reset();
     });
-    evt.preventDefault();
   });
 })();

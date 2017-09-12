@@ -3,9 +3,9 @@
 (function () {
 
   var BUILDING_TYPES = {
-    flat: 'квартира',
-    bungalo: 'бунгало',
-    house: 'дом'
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом'
   };
 
   var KEY_CODES = {

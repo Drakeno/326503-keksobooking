@@ -16,14 +16,14 @@ window.showCard = (function () {
 
   // Закрытие крестика на ENTER в фокусе
   offerInfoClose.addEventListener('keydown', function (evt) {
-    if (helper.enterPressed(evt)) {
+    if (window.helper.enterPressed(evt)) {
       closePopup();
     }
   });
 
   // Закрытие окна на ESC
   var onPopupEscPress = function (evt) {
-    if (helper.escPressed(evt)) {
+    if (window.helper.escPressed(evt)) {
       closePopup();
     }
   };
@@ -43,7 +43,7 @@ window.showCard = (function () {
 
   function show(evt) {
     var target = evt.target;
-    if (evt.type === 'click' || helper.enterPressed(evt)) {
+    if (evt.type === 'click' || window.helper.enterPressed(evt)) {
       while (target !== map) {
         if (target.className === 'pin') {
           for (var l = 0; l < map.children.length; l++) {

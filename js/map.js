@@ -64,8 +64,8 @@
       }
     };
 
-    var onMouseUp = function (evt) {
-      evt.preventDefault();
+    var onMouseUp = function (event) {
+      event.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -79,3 +79,4 @@
 // Как привязывать глобальные функции к селектам??
 // Как корректно выводить переменные в глобал? Или лучше в своих модулях свои переменные
 // Фильтр... тоже не понимаю, как привязать к селектам
+// Как сгладить синхронизацию и добавить или или
