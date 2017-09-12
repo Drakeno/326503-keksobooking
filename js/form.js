@@ -32,7 +32,7 @@
 
   window.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
 
-  // Синхронизация количества комнат с гостями
+  // Синхронизация количества комнат с гостями - просто, но не то, что нужно
   //  window.synchronizeFields(roomNumber, roomCapacity, rooms, guestsCapacity, setValue);
   // window.synchronizeFields(roomCapacity, roomNumber, guestsCapacity, rooms, setValue);
 
@@ -76,10 +76,40 @@
   };
 
   // Следим за отправкой формы и навешиваем нужный статус
+  var checkValitidy = function () {
+    var element = null;
+
+    for (var i = 0; i < userForm.elements.length; i++) {
+      element = userForm.elements[i];
+
+      if (!element.checkValidity()) {
+        element.classList.add('invalid');
+      } else {
+        element.classList.remove('invalid');
+      }
+    }
+  };
+
+  var successHandler = function (successMessage) {
+    var node = document.createElement('div');
+    node.style.zIndex = 100;
+    node.style.position = 'absolute';
+    node.style.top = '300px';
+    node.textContent = successMessage;
+    node.style.backgroundColor = 'green';
+    node.style.fontSize = '30px';
+    node.classList.add('success-message');
+    document.body.insertAdjacentElement('afterbegin', node);
+    userForm.reset();
+  };
+
   userForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.backendSave(new FormData(userForm), function () {
-      userForm.reset();
-    });
+
+    if (!userForm.checkValidity()) {
+      checkValitidy(userForm);
+    } else {
+      window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
+    }
   });
 })();
