@@ -1,12 +1,13 @@
 'use strict';
 
-window.offerPin = (function () {
+(function () {
   var PIN_HEIGHT = 75;
   var PIN_WIDTH = 56;
   var map = document.querySelector('.tokyo__pin-map');
   var filter = document.querySelector('.tokyo__filters');
   var selectedPin;
-  var ads;
+  var filtered = null;
+  var pins = null;
 
   // Рендерим точки
   var renderOfferPin = function (offer) {
@@ -22,31 +23,9 @@ window.offerPin = (function () {
   };
 
   // Ставим полученные точки
-  var successHandler = function (offers) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < 8; i++) {
-      fragment.appendChild(renderOfferPin(offers[i]));
-    }
-    map.appendChild(fragment);
+  var generateAllPins = function (ads) {
+    return window.helper.createFragment(ads, renderOfferPin);
   };
-
-  // Обработчик ошибок
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style.zIndex = 100;
-    node.style.backgroundColor = 'red';
-    node.style.textAlign = 'center';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.top = '100px';
-    node.style.fontSize = '30px';
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
-  window.backend.load(successHandler, errorHandler);
 
   // Функция для активации pin и деактивации другого
   var highlight = function (node) {
@@ -57,20 +36,47 @@ window.offerPin = (function () {
     selectedPin.classList.add('pin--active');
   };
 
-  return {
-    pinLighted: highlight
+  var getStartPinData = function (loadPins) {
+    loadPins = window.offers;
+    pins = loadPins;
+    filtered = loadPins;
+    generateAllPins(loadPins);
+    map.appendChild(generateAllPins(loadPins));
+  };
+
+  window.backend.load(getStartPinData, window.helper.errorHandler);
+
+  var deactivatePin = function () {
+    var pinActive = document.querySelector('.pin--active');
+
+    if (pinActive) {
+      pinActive.classList.remove('pin--active');
+    }
+  };
+
+  var appendPins = function (advert) {
+    var advs = generateAllPins(advert);
+    var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
+
+    deactivatePin();
+
+    for (var i = 0; i < oldPins.length; i++) {
+      oldPins[i].parentElement.removeChild(oldPins[i]);
+    }
+
+    map.appendChild(advs);
   };
 
   var updatePins = window.helper.debounceFunc(function () {
-    successHandler(filtered);
+    appendPins(filtered);
   });
 
-  var isTypeMatch = function (ad) {
+  var isTypeMatch = function (pin) {
     var houseFilter = filter.querySelector('#housing_type');
-    return houseFilter.value === 'any' ? true : ad.offer.type === houseFilter.value;
+    return houseFilter.value === 'any' ? true : pin.offer.type === houseFilter.value;
   };
 
-  var isPricesMatch = function (ad) {
+  var isPricesMatch = function (pin) {
     var priceFilter = filter.querySelector('#housing_price');
     var priceFilterValue = null;
 
@@ -79,41 +85,41 @@ window.offerPin = (function () {
         priceFilterValue = true;
         break;
       case 'middle':
-        priceFilterValue = ad.offer.price <= 50000 && ad.offer.price >= 10000;
+        priceFilterValue = pin.offer.price <= 50000 && pin.offer.price >= 10000;
         break;
       case 'low':
-        priceFilterValue = ad.offer.price < 10000;
+        priceFilterValue = pin.offer.price < 10000;
         break;
       case 'high':
-        priceFilterValue = ad.offer.price > 50000;
+        priceFilterValue = pin.offer.price > 50000;
         break;
     }
 
     return priceFilterValue;
   };
 
-  var isRoomsMatch = function (ad) {
+  var isRoomsMatch = function (pin) {
     var roomsFilter = filter.querySelector('#housing_room-number');
 
-    return roomsFilter.value === 'any' ? true : ad.offer.rooms === parseInt(roomsFilter.value, 10);
+    return roomsFilter.value === 'any' ? true : pin.offer.rooms === parseInt(roomsFilter.value, 10);
   };
 
-  var isGuestsMatch = function (ad) {
+  var isGuestsMatch = function (pin) {
     var guestsFilter = filter.querySelector('#housing_guests-number');
 
-    return guestsFilter.value === 'any' ? true : ad.offer.guests === parseInt(guestsFilter.value, 10);
+    return guestsFilter.value === 'any' ? true : pin.offer.guests === parseInt(guestsFilter.value, 10);
   };
 
-  var featureListMatches = function (ad) {
+  var featureListMatches = function (pin) {
     var checkedCheckboxes = document.querySelectorAll('.tokyo__filter-set input[name=feature]:checked');
 
     return [].every.call(checkedCheckboxes, function (checkbox) {
-      return ad.offer.features.indexOf(checkbox.value) !== -1;
+      return pin.offer.features.indexOf(checkbox.value) !== -1;
     });
 
   };
 
-  filtersFunctions = [
+  var filtersFunctions = [
     isTypeMatch,
     isRoomsMatch,
     isGuestsMatch,
@@ -122,12 +128,16 @@ window.offerPin = (function () {
   ];
 
   filter.addEventListener('change', function () {
-    filtered = ads.filter(function (ad) {
+    filtered = pins.filter(function (pin) {
       return filtersFunctions.every(function (fn) {
-        return fn(ad);
+        return fn(pin);
       });
     });
 
     updatePins();
   });
+
+  window.offerPin = {
+    pinLighted: highlight
+  };
 })();

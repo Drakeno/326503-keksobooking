@@ -11,4 +11,10 @@
     }
   };
 
+  window.synchronizeFieldsSimple = function (firstElement, secondElement, data, callBack) {
+    firstElement.addEventListener('change', function () {
+      callBack(secondElement, data[firstElement.value]);
+    });
+  };
+
 }());

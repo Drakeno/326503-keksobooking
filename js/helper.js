@@ -51,11 +51,22 @@
     document.body.insertAdjacentElement('afterbegin', node);
   }
 
+  function createFragment(array, fn) {
+    var fragment = document.createDocumentFragment();
+
+    array.forEach(function (elem, index) {
+      fragment.appendChild(fn(elem, index));
+    });
+
+    return fragment;
+  }
+
   window.helper = {
     buildingTypes: BUILDING_TYPES,
     enterPressed: enterPressed,
     escPressed: escPressed,
     errorHandler: errorHandler,
-    debounceFunc: debounceFunc
+    debounceFunc: debounceFunc,
+    createFragment: createFragment
   };
 })();

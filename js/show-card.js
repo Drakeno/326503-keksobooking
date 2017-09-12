@@ -61,6 +61,7 @@ window.showCard = (function () {
   }
 
   return {
-    showCard: show
+    showCard: show,
+    closePopup: closePopup
   };
 })();
