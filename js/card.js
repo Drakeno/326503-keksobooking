@@ -33,8 +33,9 @@ window.offerCard = (function () {
 
   // Функция для вывода инфы в диалоговое окно
   function dialogueAppearance(k) {
-
-    var someOffer = window.offers[k];
+    var filtInfo = [];
+    filtInfo = window.offerPin.filtMass();
+    var someOffer = filtInfo[k];
     var offerInfoContent = offerInfo.querySelector('.dialog__panel');
     var oldInfoNode = offerInfoContent.parentNode;
 

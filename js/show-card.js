@@ -7,7 +7,11 @@ window.showCard = (function () {
   var offerInfoClose = offerInfo.querySelector('.dialog__close');
 
   // Закрываем всплывающее окно по дефолту
-  offerInfo.classList.add('hidden');
+  function hideDialog() {
+    offerInfo.classList.add('hidden');
+  }
+
+  hideDialog();
 
   // Закрытие на крестик
   offerInfoClose.addEventListener('click', function () {
@@ -62,6 +66,7 @@ window.showCard = (function () {
 
   return {
     showCard: show,
-    closePopup: closePopup
+    closePopup: closePopup,
+    hideDialog: hideDialog
   };
 })();
