@@ -27,7 +27,14 @@
     return window.helper.createFragment(pins, renderOfferPin);
   };
 
-  var highlight = function (node) {
+  var getStartPinData = function (loadPins) {
+    loadPins = window.offers;
+    map.appendChild(generateAllPins(loadPins));
+  };
+
+  window.backend.load(getStartPinData, window.helper.errorHandler);
+
+  var highlightOn = function (node) {
     if (selectedPin) {
       selectedPin.classList.remove('pin--active');
     }
@@ -35,15 +42,7 @@
     selectedPin.classList.add('pin--active');
   };
 
-  var getStartPinData = function (loadPins) {
-    loadPins = window.offers;
-    generateAllPins(loadPins);
-    map.appendChild(generateAllPins(loadPins));
-  };
-
-  window.backend.load(getStartPinData, window.helper.errorHandler);
-
-  var deactivatePin = function () {
+  var highlightOff = function () {
     var pinActive = document.querySelector('.pin--active');
     if (pinActive) {
       pinActive.classList.remove('pin--active');
@@ -53,7 +52,7 @@
   var appendPins = function (pin) {
     var pinMass = generateAllPins(pin);
     var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
-    deactivatePin();
+    highlightOff();
     for (var i = 0; i < oldPins.length; i++) {
       oldPins[i].parentElement.removeChild(oldPins[i]);
     }
@@ -68,7 +67,6 @@
   var getElementFilter = function (value1, value2) {
     return value1 === 'any' || value1 === String(value2);
   };
-
 
   var getRangeElementFilter = function (value, price) {
     switch (value) {
@@ -126,7 +124,7 @@
   });
 
   window.offerPin = {
-    pinLighted: highlight,
+    pinLighted: highlightOn,
     filtMass: applyFilters
   };
 })();

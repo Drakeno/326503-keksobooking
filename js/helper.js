@@ -37,6 +37,7 @@
   function errorHandler(errorMessage) {
     var node = document.createElement('div');
     node.style.zIndex = 100;
+    node.class = 'errorMess';
     node.style.backgroundColor = 'red';
     node.style.textAlign = 'center';
     node.style.position = 'absolute';

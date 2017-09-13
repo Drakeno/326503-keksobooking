@@ -61,7 +61,8 @@
     evt.preventDefault();
     if (adressField.value === '') {
       userForm.style.border = '3px solid red';
-      alert('Пожалуйста, задайте адрес! Это делается перемещением большой оранжевой точки на карте');
+      window.helper.errorHandler('Пожалуйста, задайте адрес! Переместите большую оранжевую точку на карте');
+      adressField.placeholder = 'Задайте адрес на карте выше!';
     } else {
       userForm.style.border = 'none';
       window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
