@@ -51,11 +51,9 @@
 
   function createFragment(array, fn) {
     var fragment = document.createDocumentFragment();
-
-    array.forEach(function (elem, index) {
-      fragment.appendChild(fn(elem, index));
+    array.forEach(function (elem, callback) {
+      fragment.appendChild(fn(elem, callback));
     });
-
     return fragment;
   }
 

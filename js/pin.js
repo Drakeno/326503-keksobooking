@@ -17,7 +17,7 @@
     newPoint.className = 'pin';
     newPoint.id = offer.id;
     newPoint.tabIndex = '0';
-    newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
+    newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px';
     newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
     newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
     return newPoint;
