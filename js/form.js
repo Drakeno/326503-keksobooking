@@ -9,7 +9,7 @@
   var housePrice = userForm.querySelector('#price');
   var roomNumber = userForm.querySelector('#room_number');
   var roomCapacity = userForm.querySelector('#capacity');
-  var adressField = userForm.querySelector('.readonly');
+  var adressField = userForm.querySelector('#address');
   var guests = userForm.querySelectorAll('#capacity option');
   var TIMES = ['12:00', '13:00', '14:00'];
   var TYPES = ['flat', 'bungalo', 'house', 'palace'];
@@ -37,58 +37,33 @@
   window.sync.synchronizeFieldsSimple(roomNumber, guests, ROOMS, roomNumberChangeCallBack);
 
   function roomNumberChangeCallBack(elements, value) {
-    elements.forEach(function (elementent) {
-      elementent.disabled = !value.includes(elementent.value);
-      if (!elementent.disabled) {
-        roomCapacity.value = elementent.value;
+    elements.forEach(function (el) {
+      el.disabled = !value.includes(el.value);
+      if (!el.disabled) {
+        roomCapacity.value = el.value;
       }
     });
   }
 
-  var checkValitidy = function () {
-    var element = null;
-
-    for (var i = 0; i < userForm.elements.length; i++) {
-      element = userForm.elements[i];
-      if (!element.checkValidity) {
-        element.classList.remove('invalid');
-      } else {
-        element.classList.add('invalid');
-      }
-    }
-  };
-
   var successHandler = function (successMessage) {
     var node = document.createElement('div');
-    node.style.zIndex = 100;
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.top = '200px';
     node.style.textAlign = 'center';
     node.style.color = 'white';
     node.textContent = successMessage;
     node.style.backgroundColor = 'green';
     node.style.fontSize = '30px';
     node.classList.add('success-message');
-    document.body.insertAdjacentElement('afterbegin', node);
+    userForm.insertAdjacentElement('afterbegin', node);
     userForm.reset();
   };
 
-  adressField.addEventListener('keydown', function (e) {
-    e.preventDefault();
-  });
-
-  adressField.addEventListener('invalid', function () {
-    adressField.setCustomValidity('Пожалуйста, выберите адрес! Это делается перемещением большой оранжевой точки на карте');
-  });
-
   userForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-
-    if (!userForm.checkValidity()) {
-      checkValitidy(userForm);
+    if (adressField.value === '') {
+      userForm.style.border = '3px solid red';
+      alert('Пожалуйста, задайте адрес! Это делается перемещением большой оранжевой точки на карте');
     } else {
+      userForm.style.border = 'none';
       window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
     }
   });

@@ -30,15 +30,20 @@ window.offerCard = (function () {
     return offerElement;
   };
 
-  function dialogueAppearance(k) {
-    var filtInfo = window.offerPin.filtMass();
-    var someOffer = filtInfo[k];
+  function dialogueAppearance(target) {
+    var thisOffer;
+    for (var i = 0; i < window.offers.length; i++) {
+      debugger;
+      if (target.id === window.offers[i].id) {
+        thisOffer = window.offers[i];
+      }
+    }
     var offerInfoContent = offerInfo.querySelector('.dialog__panel');
     var oldInfoNode = offerInfoContent.parentNode;
 
-    fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
+    fragment.appendChild(renderOfferInfo(thisOffer)); // Создаем фрагмент на основе объекта
     oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
-    avatarImg.src = someOffer.author.avatar;
+    avatarImg.src = thisOffer.author.avatar;
   }
 
   return {

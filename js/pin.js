@@ -15,6 +15,7 @@
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
     newPoint.className = 'pin';
+    newPoint.id = offer.id;
     newPoint.tabIndex = '0';
     newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
     newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
@@ -22,8 +23,8 @@
     return newPoint;
   };
 
-  var generateAllPins = function (ads) {
-    return window.helper.createFragment(ads, renderOfferPin);
+  var generateAllPins = function (pins) {
+    return window.helper.createFragment(pins, renderOfferPin);
   };
 
   var highlight = function (node) {
@@ -36,7 +37,6 @@
 
   var getStartPinData = function (loadPins) {
     loadPins = window.offers;
-    filtered = loadPins;
     generateAllPins(loadPins);
     map.appendChild(generateAllPins(loadPins));
   };
@@ -50,15 +50,15 @@
     }
   };
 
-  var appendPins = function (advert) {
-    var advs = generateAllPins(advert);
+  var appendPins = function (pin) {
+    var pinMass = generateAllPins(pin);
     var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
     deactivatePin();
     for (var i = 0; i < oldPins.length; i++) {
       oldPins[i].parentElement.removeChild(oldPins[i]);
     }
 
-    map.appendChild(advs);
+    map.appendChild(pinMass);
   };
 
   var updatePins = window.helper.debounceFunc(function () {
