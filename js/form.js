@@ -55,11 +55,10 @@
 
     for (var i = 0; i < userForm.elements.length; i++) {
       element = userForm.elements[i];
-
-      if (!element.checkValidity()) {
-        element.classList.add('invalid');
-      } else {
+      if (!element.checkValidity) {
         element.classList.remove('invalid');
+      } else {
+        element.classList.add('invalid');
       }
     }
   };
@@ -68,7 +67,11 @@
     var node = document.createElement('div');
     node.style.zIndex = 100;
     node.style.position = 'absolute';
-    node.style.top = '300px';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.top = '200px';
+    node.style.textAlign = 'center';
+    node.style.color = 'white';
     node.textContent = successMessage;
     node.style.backgroundColor = 'green';
     node.style.fontSize = '30px';
@@ -83,7 +86,8 @@
     if (!userForm.checkValidity()) {
       checkValitidy(userForm);
     } else {
-      window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
+      var formData = new FormData(userForm);
+      window.backend.save(formData, successHandler, window.helper.errorHandler);
     }
   });
 })();
