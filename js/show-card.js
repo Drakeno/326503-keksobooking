@@ -9,8 +9,6 @@ window.showCard = (function () {
     offerInfo.classList.add('hidden');
   }
 
-  hideDialog();
-
   offerInfoClose.addEventListener('click', function () {
     closePopup();
   });

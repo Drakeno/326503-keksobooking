@@ -31,8 +31,7 @@ window.offerCard = (function () {
   };
 
   function dialogueAppearance(k) {
-    var filtInfo = [];
-    filtInfo = window.offerPin.filtMass();
+    var filtInfo = window.offerPin.filtMass();
     var someOffer = filtInfo[k];
     var offerInfoContent = offerInfo.querySelector('.dialog__panel');
     var oldInfoNode = offerInfoContent.parentNode;

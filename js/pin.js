@@ -7,7 +7,6 @@
   var filter = document.querySelector('.tokyo__filters');
   var selectedPin;
   var filtered = null;
-
   var housingTypeFilter = document.querySelector('#housing_type');
   var housingPriceFilter = document.querySelector('#housing_price');
   var housingRoomNumber = document.querySelector('#housing_room-number');
@@ -15,13 +14,11 @@
 
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
-
     newPoint.className = 'pin';
     newPoint.tabIndex = '0';
     newPoint.style.left = offer.location.x - PIN_WIDTH / 2 + 'px'; // Координаты появления с учетом размеров метки
     newPoint.style.top = offer.location.y - PIN_HEIGHT + 'px';
     newPoint.innerHTML = '<img src="' + offer.author.avatar + '" class="rounded" width="40" height="40">';
-
     return newPoint;
   };
 
@@ -48,7 +45,6 @@
 
   var deactivatePin = function () {
     var pinActive = document.querySelector('.pin--active');
-
     if (pinActive) {
       pinActive.classList.remove('pin--active');
     }
@@ -57,9 +53,7 @@
   var appendPins = function (advert) {
     var advs = generateAllPins(advert);
     var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
-
     deactivatePin();
-
     for (var i = 0; i < oldPins.length; i++) {
       oldPins[i].parentElement.removeChild(oldPins[i]);
     }
@@ -91,7 +85,6 @@
   };
 
   var getClickElementFilter = function (features) {
-
     var count = 0;
     var featureChecked = document.querySelectorAll('input[name="feature"]:checked');
 
@@ -119,7 +112,6 @@
     result = result.filter(function (el) {
       return getElementFilter(housingGuestsNumber.value, el.offer.guests);
     });
-
     result = result.filter(function (el) {
       return getClickElementFilter(el.offer.features);
     });

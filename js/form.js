@@ -11,10 +11,10 @@
   var roomCapacity = userForm.querySelector('#capacity');
   var adressField = userForm.querySelector('.readonly');
   var guests = userForm.querySelectorAll('#capacity option');
-  var times = ['12:00', '13:00', '14:00'];
-  var types = ['flat', 'bungalo', 'house', 'palace'];
-  var prices = [1000, 0, 5000, 10000];
-  var rooms = {
+  var TIMES = ['12:00', '13:00', '14:00'];
+  var TYPES = ['flat', 'bungalo', 'house', 'palace'];
+  var PRICES = [1000, 0, 5000, 10000];
+  var ROOMS = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
@@ -25,17 +25,16 @@
     element.value = value;
   };
 
-  window.sync.synchronizeFields(timeIn, timeOut, times, times, setValue, 'value');
-  window.sync.synchronizeFields(timeOut, timeIn, times, times, setValue, 'value');
+  window.sync.synchronizeFields(timeIn, timeOut, TIMES, TIMES, setValue, 'value');
+  window.sync.synchronizeFields(timeOut, timeIn, TIMES, TIMES, setValue, 'value');
 
   var setTypePrice = function (element, value) {
     element.value = value;
     element.min = value;
   };
 
-  window.sync.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
-
-  window.sync.synchronizeFieldsSimple(roomNumber, guests, rooms, roomNumberChangeCallBack);
+  window.sync.synchronizeFields(houseType, housePrice, TYPES, PRICES, setTypePrice, 'min');
+  window.sync.synchronizeFieldsSimple(roomNumber, guests, ROOMS, roomNumberChangeCallBack);
 
   function roomNumberChangeCallBack(elements, value) {
     elements.forEach(function (elementent) {
@@ -80,9 +79,9 @@
     e.preventDefault();
   });
 
-  adressField.oninvalid = function () {
+  adressField.addEventListener('invalid', function () {
     adressField.setCustomValidity('Пожалуйста, выберите адрес! Это делается перемещением большой оранжевой точки на карте');
-  };
+  });
 
   userForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
@@ -90,8 +89,7 @@
     if (!userForm.checkValidity()) {
       checkValitidy(userForm);
     } else {
-      var formData = new FormData(userForm);
-      window.backend.save(formData, successHandler, window.helper.errorHandler);
+      window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
     }
   });
 })();

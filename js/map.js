@@ -9,19 +9,18 @@
   };
   var pinMain = map.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
-
-  map.addEventListener('click', window.showCard.showCard, false);
-  map.addEventListener('keydown', window.showCard.showCard, false);
-
   var pinAddressCoord = {
     x: pinMain.offsetLeft + pin.width / 2,
     y: pinMain.offsetTop + pin.height
   };
-
   var mapSize = {
     width: mapArea.clientWidth,
     height: mapArea.clientHeight
   };
+
+  window.showCard.hideDialog();
+  map.addEventListener('click', window.showCard.showCard, false);
+  map.addEventListener('keydown', window.showCard.showCard, false);
 
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
