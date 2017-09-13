@@ -42,11 +42,7 @@ window.showCard = (function () {
     if (evt.type === 'click' || window.helper.enterPressed(evt)) {
       while (target !== map) {
         if (target.className === 'pin') {
-          for (var l = 0; l < map.children.length; l++) {
-            if (map.children[l] === target) {
-              window.offerCard.dialogAppear(target); // Компенсация main-pin
-            }
-          }
+          window.offerCard.dialogAppear(target);
           window.offerPin.pinLighted(target);
           openPopup();
           return;

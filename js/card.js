@@ -33,7 +33,6 @@ window.offerCard = (function () {
   function dialogueAppearance(target) {
     var thisOffer;
     for (var i = 0; i < window.offers.length; i++) {
-      debugger;
       if (target.id === window.offers[i].id) {
         thisOffer = window.offers[i];
       }
