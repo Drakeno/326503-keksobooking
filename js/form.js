@@ -25,8 +25,8 @@
     element.value = value;
   };
 
-  window.synchronizeFields(timeIn, timeOut, times, times, setValue, 'value');
-  window.synchronizeFields(timeOut, timeIn, times, times, setValue, 'value');
+  window.sync.synchronizeFields(timeIn, timeOut, times, times, setValue, 'value');
+  window.sync.synchronizeFields(timeOut, timeIn, times, times, setValue, 'value');
 
   // синхронизация типов жилья и стоимости заезда/выезда
 
@@ -35,10 +35,10 @@
     element.min = value;
   };
 
-  window.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
+  window.sync.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
 
   // Синхронизация количества комнат с гостями
-  window.synchronizeFieldsSimple(roomNumber, guests, rooms, roomNumberChangeCallBack);
+  window.sync.synchronizeFieldsSimple(roomNumber, guests, rooms, roomNumberChangeCallBack);
 
   function roomNumberChangeCallBack(elements, value) {
     elements.forEach(function (elementent) {

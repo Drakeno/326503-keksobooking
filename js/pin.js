@@ -75,56 +75,45 @@
     });
   };
 
-  //  var isPricesMatch = function (pin) {
-  //    var priceFilter = filter.querySelector('#housing_price');
-  //    var priceFilterValue = null;
-  //
-  //    switch (priceFilter.value) {
-  //      case 'any':
-  //        priceFilterValue = true;
-  //        break;
-  //      case 'middle':
-  //        priceFilterValue = pin.offer.price <= 50000 && pin.offer.price >= 10000;
-  //        break;
-  //      case 'low':
-  //        priceFilterValue = pin.offer.price < 10000;
-  //        break;
-  //      case 'high':
-  //        priceFilterValue = pin.offer.price > 50000;
-  //        break;
-  //    }
-  //
-  //    return priceFilterValue;
-  //  };
-  //
-  //  var isRoomsMatch = function (pin) {
-  //    var roomsFilter = filter.querySelector('#housing_room-number');
-  //
-  //    return roomsFilter.value === 'any' ? true : pin.offer.rooms === parseInt(roomsFilter.value, 10);
-  //  };
-  //
-  //  var isGuestsMatch = function (pin) {
-  //    var guestsFilter = filter.querySelector('#housing_guests-number');
-  //
-  //    return guestsFilter.value === 'any' ? true : pin.offer.guests === parseInt(guestsFilter.value, 10);
-  //  };
-  //
-  //  var featureListMatches = function (pin) {
+  var isPricesMatch = function (value) {
+    if (value === 'any') {
+      return window.offers;
+    } else if (value === 'middle') {
+      return window.offers.filter(function (item) {
+        return item.offer.price <= 50000 && item.offer.price >= 10000;
+      });
+    } else if (value === 'low') {
+      return window.offers.filter(function (item) {
+        return item.offer.price < 10000;
+      });
+    } else if (value === 'high') {
+      return window.offers.filter(function (item) {
+        return item.offer.price > 50000;
+      });
+    } else {
+      return window.offers;
+    }
+  };
+
+  var isRoomsMatch = function (value) {
+    return value === 'any' ? window.offers : window.offers.filter(function (item) {
+      return item.offer.rooms === parseInt(value, 10);
+    });
+  };
+
+  var isGuestsMatch = function (value) {
+    return value === 'any' ? window.offers : window.offers.filter(function (item) {
+      return item.offer.guests === parseInt(value, 10);
+    });
+  };
+
+  //  var featureListMatches = function (value) {
   //    var checkedCheckboxes = document.querySelectorAll('.tokyo__filter-set input[name=feature]:checked');
   //
-  //    return [].every.call(checkedCheckboxes, function (checkbox) {
-  //      return pin.offer.features.indexOf(checkbox.value) !== -1;
+  //    return [].every.call(checkedCheckboxes,  window.offers.filter(function (item) {
+  //      return item.offer.features.indexOf(checkedCheckboxes.value) !== -1;
   //    });
-  //
   //  };
-  //
-  //  var filtersFunctions = [
-  //    isTypeMatch,
-  //    isRoomsMatch,
-  //    isGuestsMatch,
-  //    isPricesMatch,
-  //    featureListMatches
-  //  ];
 
   filter.addEventListener('change', function (evt) {
     var attr = evt.target.getAttribute('id');
@@ -135,9 +124,20 @@
       case 'housing_type':
         filter = isTypeMatch;
         break;
+      case 'housing_price':
+        filter = isPricesMatch;
+        break;
+      case 'housing_room-number':
+        filter = isRoomsMatch;
+        break;
+      case 'housing_guests-number':
+        filter = isGuestsMatch;
+        break;
+        //      case 'housing_features':
+        //        filter = featureListMatches;
+        //        break;
       default:
         break;
-
     }
 
     filtered = filter(value);
