@@ -10,11 +10,8 @@
   var pinMain = map.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
 
-  // Отслеживаем клики + enter по пинам на карте
   map.addEventListener('click', window.showCard.showCard, false);
   map.addEventListener('keydown', window.showCard.showCard, false);
-
-  // Активируем возможность перемещения главного пина
 
   var pinAddressCoord = {
     x: pinMain.offsetLeft + pin.width / 2,
@@ -49,14 +46,13 @@
         y: moveEvent.clientY
       };
 
-      // Изменяем значения адресного инпута
       pinAddressCoord = {
         x: pinMain.offsetLeft - shift.x + Math.floor(pin.width / 2),
         y: pinMain.offsetTop - shift.y + pin.height
       };
 
       if (pinAddressCoord.x >= 0 && pinAddressCoord.x <= mapSize.width && pinAddressCoord.y >= 0 && pinAddressCoord.y <= mapSize.height) {
-        // Меняем положение пина в заданных границах
+
         pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
         pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
 
@@ -79,4 +75,3 @@
 // Как привязывать глобальные функции к селектам??
 // Как корректно выводить переменные в глобал? Или лучше в своих модулях свои переменные
 // Фильтр... тоже не понимаю, как привязать к селектам
-// Адрес валид?

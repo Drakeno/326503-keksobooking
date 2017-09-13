@@ -13,7 +13,6 @@
   var housingRoomNumber = document.querySelector('#housing_room-number');
   var housingGuestsNumber = document.querySelector('#housing_guests-number');
 
-  // Рендерим точки
   var renderOfferPin = function (offer) {
     var newPoint = document.createElement('div');
 
@@ -26,12 +25,10 @@
     return newPoint;
   };
 
-  // Ставим полученные точки
   var generateAllPins = function (ads) {
     return window.helper.createFragment(ads, renderOfferPin);
   };
 
-  // Функция для активации pin и деактивации другого
   var highlight = function (node) {
     if (selectedPin) {
       selectedPin.classList.remove('pin--active');

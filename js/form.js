@@ -9,6 +9,7 @@
   var housePrice = userForm.querySelector('#price');
   var roomNumber = userForm.querySelector('#room_number');
   var roomCapacity = userForm.querySelector('#capacity');
+  var adressField = userForm.querySelector('.readonly');
   var guests = userForm.querySelectorAll('#capacity option');
   var times = ['12:00', '13:00', '14:00'];
   var types = ['flat', 'bungalo', 'house', 'palace'];
@@ -20,15 +21,12 @@
     '100': ['0']
   };
 
-  // синхронизация времени заезда/выезда
   var setValue = function (element, value) {
     element.value = value;
   };
 
   window.sync.synchronizeFields(timeIn, timeOut, times, times, setValue, 'value');
   window.sync.synchronizeFields(timeOut, timeIn, times, times, setValue, 'value');
-
-  // синхронизация типов жилья и стоимости заезда/выезда
 
   var setTypePrice = function (element, value) {
     element.value = value;
@@ -37,7 +35,6 @@
 
   window.sync.synchronizeFields(houseType, housePrice, types, prices, setTypePrice, 'min');
 
-  // Синхронизация количества комнат с гостями
   window.sync.synchronizeFieldsSimple(roomNumber, guests, rooms, roomNumberChangeCallBack);
 
   function roomNumberChangeCallBack(elements, value) {
@@ -49,7 +46,6 @@
     });
   }
 
-  // Следим за отправкой формы и навешиваем нужный статус
   var checkValitidy = function () {
     var element = null;
 
@@ -78,6 +74,14 @@
     node.classList.add('success-message');
     document.body.insertAdjacentElement('afterbegin', node);
     userForm.reset();
+  };
+
+  adressField.addEventListener('keydown', function (e) {
+    e.preventDefault();
+  });
+
+  adressField.oninvalid = function () {
+    adressField.setCustomValidity('Пожалуйста, выберите адрес! Это делается перемещением большой оранжевой точки на карте');
   };
 
   userForm.addEventListener('submit', function (evt) {

@@ -1,38 +1,32 @@
 'use strict';
 
-// Функция для подсветки, открытия диалогового окна
 window.showCard = (function () {
   var map = document.querySelector('.tokyo__pin-map');
   var offerInfo = document.querySelector('.dialog');
   var offerInfoClose = offerInfo.querySelector('.dialog__close');
 
-  // Закрываем всплывающее окно по дефолту
   function hideDialog() {
     offerInfo.classList.add('hidden');
   }
 
   hideDialog();
 
-  // Закрытие на крестик
   offerInfoClose.addEventListener('click', function () {
     closePopup();
   });
 
-  // Закрытие крестика на ENTER в фокусе
   offerInfoClose.addEventListener('keydown', function (evt) {
     if (window.helper.enterPressed(evt)) {
       closePopup();
     }
   });
 
-  // Закрытие окна на ESC
   var onPopupEscPress = function (evt) {
     if (window.helper.escPressed(evt)) {
       closePopup();
     }
   };
 
-  // Функция закрытия попапа + удаление Esc листнера + удаление активного pin
   var closePopup = function () {
     var selectedPin = document.querySelector('.pin--active');
     offerInfo.classList.add('hidden');

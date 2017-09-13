@@ -14,7 +14,6 @@ window.offerCard = (function () {
     var length = someOffer.offer.features.length;
     var j;
 
-    // Подгрузка иконок
     for (j = 0; j < length; j++) {
       features += '<span class="feature__image feature__image--' + someOffer.offer.features[j] + '"></span>';
     }
@@ -31,7 +30,6 @@ window.offerCard = (function () {
     return offerElement;
   };
 
-  // Функция для вывода инфы в диалоговое окно
   function dialogueAppearance(k) {
     var filtInfo = [];
     filtInfo = window.offerPin.filtMass();
