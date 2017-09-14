@@ -1,5 +1,4 @@
 'use strict';
-/* global offers */
 
 window.offerCard = (function () {
   var offerPopupTemplate = document.querySelector('#lodge-template');
@@ -14,32 +13,15 @@ window.offerCard = (function () {
     var features = '';
     var length = someOffer.offer.features.length;
     var j;
-    var type = '';
 
-    // Подгрузка иконок
     for (j = 0; j < length; j++) {
       features += '<span class="feature__image feature__image--' + someOffer.offer.features[j] + '"></span>';
-    }
-
-    // Замена слов типа жилья
-    switch (someOffer.offer.type) {
-      case 'flat':
-        type = 'Квартира';
-        break;
-      case 'house':
-        type = 'Дом';
-        break;
-      case 'bungalo':
-        type = 'Бунгало';
-        break;
-      default:
-        break;
     }
 
     offerElement.querySelector('.lodge__title').textContent = someOffer.offer.title; // Выведите заголовок объявления offer.title в блок .lodge__title
     offerElement.querySelector('.lodge__address').textContent = someOffer.offer.address; // Выведите заголовок объявления offer.title в блок .lodge__address
     offerElement.querySelector('.lodge__price').textContent = someOffer.offer.price + '₽/ночь'; // Выведите цену offer.price в блок lodge__price строкой вида {{offer.price}}&#x20bd;/ночь
-    offerElement.querySelector('.lodge__type').textContent = type; // В блок lodge__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalo, Дом для house
+    offerElement.querySelector('.lodge__type').textContent = window.helper.buildingTypes[someOffer.offer.type]; // В блок lodge__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalo, Дом для house
     offerElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + someOffer.offer.guests + ' гостей в ' + someOffer.offer.rooms + ' комнатах'; // Выведите количество гостей и комнат
     offerElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + someOffer.offer.checkin + ', выезд до ' + someOffer.offer.checkout; //  Время заезда и выезда
     offerElement.querySelector('.lodge__features').innerHTML = features; // Выведите все доступные удобства пустыми спанами с классом feature__image--название
@@ -48,16 +30,23 @@ window.offerCard = (function () {
     return offerElement;
   };
 
-  // Функция для вывода инфы в диалоговое окно
-  return {
-    dialogAppear: function createDialogInfo(k) {
-      var someOffer = offers[k];
-      var offerInfoContent = offerInfo.querySelector('.dialog__panel');
-      var oldInfoNode = offerInfoContent.parentNode;
-      fragment.appendChild(renderOfferInfo(someOffer)); // Создаем фрагмент на основе объекта
-      oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
-
-      avatarImg.src = someOffer.author.avatar;
+  function dialogueAppearance(target) {
+    var thisOffer;
+    for (var i = 0; i < window.offers.length; i++) {
+      if (target.id === window.offers[i].id) {
+        thisOffer = window.offers[i];
+      }
     }
+    var offerInfoContent = offerInfo.querySelector('.dialog__panel');
+    var oldInfoNode = offerInfoContent.parentNode;
+
+    fragment.appendChild(renderOfferInfo(thisOffer)); // Создаем фрагмент на основе объекта
+    oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
+    avatarImg.src = thisOffer.author.avatar;
+  }
+
+  return {
+    dialogAppear: dialogueAppearance
   };
+
 })();

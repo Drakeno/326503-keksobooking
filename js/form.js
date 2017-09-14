@@ -9,96 +9,63 @@
   var housePrice = userForm.querySelector('#price');
   var roomNumber = userForm.querySelector('#room_number');
   var roomCapacity = userForm.querySelector('#capacity');
-  var roomCapacityOption = roomCapacity.getElementsByTagName('option');
-  var roomNumberOption = roomNumber.getElementsByTagName('option');
-  var sbmButton = userForm.querySelector('.form__submit');
-
-  // TODO отдать это synchronize-fields.js Подстраивание селектов заезда/выезда друг под друга
-  timeOut.onchange = function () {
-    timeIn.value = timeOut.value;
+  var adressField = userForm.querySelector('#address');
+  var guests = userForm.querySelectorAll('#capacity option');
+  var TIMES = ['12:00', '13:00', '14:00'];
+  var TYPES = ['flat', 'bungalo', 'house', 'palace'];
+  var PRICES = [1000, 0, 5000, 10000];
+  var ROOMS = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
   };
 
-  timeIn.onchange = function () {
-    timeOut.value = timeIn.value;
+  var setValue = function (element, value) {
+    element.value = value;
   };
 
+  window.sync.synchronizeFields(timeIn, timeOut, TIMES, TIMES, setValue, 'value');
+  window.sync.synchronizeFields(timeOut, timeIn, TIMES, TIMES, setValue, 'value');
 
-  // TODO отдать это synchronize-fields.js Синхронизация типа жилья с минимальной ценой
-  houseType.onchange = function () {
-    if (houseType.value === 'flat') {
-      housePrice.min = 1000;
-      housePrice.value = 1000; // TODO Не уверен, что value тоже стоит менять
-    } else if (houseType.value === 'house') {
-      housePrice.min = 5000;
-      housePrice.value = 5000;
-    } else if (houseType.value === 'palace') {
-      housePrice.min = 10000;
-      housePrice.value = 10000;
-    } else {
-      housePrice.min = 0;
-      housePrice.value = 0;
-    }
+  var setTypePrice = function (element, value) {
+    element.value = value;
+    element.min = value;
   };
 
-  // TODO отдать это synchronize-fields.js Подбор типа жилься в зависимости от цены
-  housePrice.addEventListener('input', function () {
-    if (housePrice.value >= 1000 && housePrice.value < 5000) {
-      houseType.value = 'flat';
-    } else if (housePrice.value >= 5000 && housePrice.value < 10000) {
-      houseType.value = 'house';
-    } else if (housePrice.value >= 10000) {
-      houseType.value = 'palace';
-    } else {
-      houseType.value = 'bungalo';
-    }
-  });
+  window.sync.synchronizeFields(houseType, housePrice, TYPES, PRICES, setTypePrice, 'min');
+  window.sync.synchronizeFieldsSimple(roomNumber, guests, ROOMS, roomNumberChangeCallBack);
 
-  // Подбор количества мест под количество комнат
-  roomNumber.onchange = function () {
-    for (var n = 0; n < roomCapacityOption.length; n++) {
-      roomCapacityOption[n].disabled = true;
-      if (roomNumber.value === '1' && roomCapacityOption[n].value === '1') {
-        roomCapacityOption[n].disabled = false;
-        roomCapacityOption[n].selected = true;
-      } else if (roomNumber.value === '2' && (roomCapacityOption[n].value === '1' || roomCapacityOption[n].value === '2')) {
-        roomCapacityOption[n].disabled = false;
-      } else if (roomNumber.value === '3' && (roomCapacityOption[n].value === '1' || roomCapacityOption[n].value === '2' || roomCapacityOption[n].value === '3')) {
-        roomCapacityOption[n].disabled = false;
-      } else if (roomNumber.value === '100' && roomCapacityOption[n].value === '0') {
-        roomCapacityOption[n].disabled = false;
-        roomCapacityOption[n].selected = true;
+  function roomNumberChangeCallBack(elements, value) {
+    elements.forEach(function (el) {
+      el.disabled = !value.includes(el.value);
+      if (!el.disabled) {
+        roomCapacity.value = el.value;
       }
-    }
-  };
+    });
+  }
 
-  // Подбор количества комнат под количество мест
-  roomCapacity.onchange = function () {
-    for (var m = 0; m < roomNumberOption.length; m++) {
-      roomNumberOption[m].disabled = true;
-      if (roomNumberOption[m].value === '1' && roomCapacity.value === '1') {
-        roomNumberOption[m].disabled = false;
-        roomNumberOption[m].selected = true;
-      } else if (roomCapacity.value === '2' && (roomNumberOption[m].value === '2' || roomNumberOption[m].value === '3')) {
-        roomNumberOption[m].disabled = false;
-      } else if (roomCapacity.value === '3' && roomNumberOption[m].value === '3') {
-        roomNumberOption[m].disabled = false;
-      } else if (roomCapacity.value === '0' && roomNumberOption[m].value === '100') {
-        roomNumberOption[m].disabled = false;
-        roomNumberOption[m].selected = true;
-      }
-    }
-  };
-
-  // 5 После отправки формы все значения должны сбрасываться на те, что были по умолчанию
-  sbmButton.onclick = function () {
+  var successHandler = function (successMessage) {
+    var node = document.createElement('div');
+    node.style.textAlign = 'center';
+    node.style.color = 'white';
+    node.textContent = successMessage;
+    node.style.backgroundColor = 'green';
+    node.style.fontSize = '30px';
+    node.classList.add('success-message');
+    userForm.insertAdjacentElement('afterbegin', node);
     userForm.reset();
   };
 
-  // Следим за отправкой формы и навешиваем нужный статус
   userForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(userForm), function (onError) {
-      userForm.reset();
-    });
     evt.preventDefault();
+    if (adressField.value === '') {
+      userForm.style.border = '3px solid red';
+      window.helper.errorHandler('Пожалуйста, задайте адрес! Переместите большую оранжевую точку на карте');
+      adressField.placeholder = 'Задайте адрес на карте выше!';
+    } else {
+      userForm.style.border = 'none';
+      window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
+    }
   });
 })();
