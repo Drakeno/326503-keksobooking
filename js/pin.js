@@ -6,7 +6,7 @@
   var map = document.querySelector('.tokyo__pin-map');
   var filter = document.querySelector('.tokyo__filters');
   var selectedPin;
-  var filtered = null;
+  var filterData = null;
   var housingTypeFilter = document.querySelector('#housing_type');
   var housingPriceFilter = document.querySelector('#housing_price');
   var housingRoomNumber = document.querySelector('#housing_room-number');
@@ -61,7 +61,7 @@
   };
 
   var updatePins = window.helper.debounceFunc(function () {
-    appendPins(filtered);
+    appendPins(filterData);
   });
 
   var getElementFilter = function (value1, value2) {
@@ -118,7 +118,7 @@
   };
 
   filter.addEventListener('change', function () {
-    filtered = applyFilters();
+    filterData = applyFilters();
     updatePins();
     window.showCard.hideDialog();
   });
