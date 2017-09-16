@@ -15,15 +15,15 @@
 
   var DEBOUNCE_INTERVAL = 300;
 
-  function enterPressed(evt) {
+  var enterPressed = function (evt) {
     return evt.keyCode === KEY_CODES.ENTER_KEYCODE;
-  }
+  };
 
-  function escPressed(evt) {
+  var escPressed = function (evt) {
     return evt.keyCode === KEY_CODES.ESC_KEYCODE;
-  }
+  };
 
-  function debounceFunc(func) {
+  var debounceFunc = function (func) {
     var lastTimeout;
     return function () {
       if (lastTimeout) {
@@ -32,9 +32,9 @@
       lastTimeout = window.setTimeout(func, DEBOUNCE_INTERVAL);
       return lastTimeout;
     };
-  }
+  };
 
-  function errorHandler(errorMessage) {
+  var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style.zIndex = 100;
     node.class = 'errorMess';
@@ -47,15 +47,15 @@
     node.style.fontSize = '30px';
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
-  }
+  };
 
-  function createFragment(array, fn) {
+  var createFragment = function (array, fn) {
     var fragment = document.createDocumentFragment();
     array.forEach(function (elem, callback) {
       fragment.appendChild(fn(elem, callback));
     });
     return fragment;
-  }
+  };
 
   window.helper = {
     buildingTypes: BUILDING_TYPES,

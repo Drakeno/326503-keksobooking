@@ -23,16 +23,18 @@
     return newPoint;
   };
 
-  var generateAllPins = function (pins) {
-    return window.helper.createFragment(pins, renderOfferPin);
+   var generateAllPins = function (pins) {
+    var fragment = document.createDocumentFragment();
+    for (var j = 0; j < pins.length; j++) {
+      fragment.appendChild(createPin(renderOfferPin[j]));
+    }
   };
 
   var getStartPinData = function (loadPins) {
     loadPins = window.offers;
     map.appendChild(generateAllPins(loadPins));
+    window.helper.errorHandler();
   };
-
-  window.backend.load(getStartPinData, window.helper.errorHandler);
 
   var highlightOn = function (node) {
     if (selectedPin) {

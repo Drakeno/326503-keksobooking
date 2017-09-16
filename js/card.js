@@ -30,7 +30,7 @@ window.offerCard = (function () {
     return offerElement;
   };
 
-  function dialogueAppearance(target) {
+  var dialogueAppearance = function (target) {
     var thisOffer;
     for (var i = 0; i < window.offers.length; i++) {
       if (target.id === window.offers[i].id) {
@@ -43,7 +43,7 @@ window.offerCard = (function () {
     fragment.appendChild(renderOfferInfo(thisOffer)); // Создаем фрагмент на основе объекта
     oldInfoNode.replaceChild(fragment, offerInfoContent); // Заменяем данные в существующем блоке dialog__panel
     avatarImg.src = thisOffer.author.avatar;
-  }
+  };
 
   return {
     dialogAppear: dialogueAppearance

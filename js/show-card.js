@@ -5,9 +5,9 @@ window.showCard = (function () {
   var offerInfo = document.querySelector('.dialog');
   var offerInfoClose = offerInfo.querySelector('.dialog__close');
 
-  function hideDialog() {
+  var hideDialog = function () {
     offerInfo.classList.add('hidden');
-  }
+  };
 
   offerInfoClose.addEventListener('click', function () {
     closePopup();
@@ -37,7 +37,7 @@ window.showCard = (function () {
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  function show(evt) {
+  var show = function (evt) {
     var target = evt.target;
     if (evt.type === 'click' || window.helper.enterPressed(evt)) {
       while (target !== map) {
@@ -50,7 +50,7 @@ window.showCard = (function () {
         target = target.parentNode;
       }
     }
-  }
+  };
 
   return {
     showCard: show,

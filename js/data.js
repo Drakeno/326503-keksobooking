@@ -3,9 +3,13 @@
 (function () {
   var successHandler = function (offers) {
     var offersArrays = [];
-    for (var i = 0; i < offers.length; i++) {
-      offers[i]['id'] = createUnicId();
-      offersArrays.push(offers[i]);
+    if (offers !== null) {
+      for (var i = 0; i < offers.length; i++) {
+        offers[i]['id'] = createUnicId();
+        offersArrays.push(offers[i]);
+      }
+    } else {
+      window.helper.errorHandler();
     }
     window.offers = offersArrays;
   };

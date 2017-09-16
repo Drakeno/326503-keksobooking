@@ -36,14 +36,14 @@
   window.sync.synchronizeFields(houseType, housePrice, TYPES, PRICES, setTypePrice, 'min');
   window.sync.synchronizeFieldsSimple(roomNumber, guests, ROOMS, roomNumberChangeCallBack);
 
-  function roomNumberChangeCallBack(elements, value) {
+  var roomNumberChangeCallBack = function (elements, value) {
     elements.forEach(function (el) {
       el.disabled = !value.includes(el.value);
       if (!el.disabled) {
         roomCapacity.value = el.value;
       }
     });
-  }
+  };
 
   var successHandler = function (successMessage) {
     var node = document.createElement('div');
