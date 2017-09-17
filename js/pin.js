@@ -52,10 +52,11 @@
     var pinMass = generateAllPins(pin);
     var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
     highlightOff();
-    for (var i = 0; i < oldPins.length; i++) {
-      oldPins[i].parentElement.removeChild(oldPins[i]);
+    if (oldPins.length !== 0) {
+      for (var i = 0; i < oldPins.length; i++) {
+        map.removeChild(oldPins[i]);
+      }
     }
-
     map.appendChild(pinMass);
   };
 
