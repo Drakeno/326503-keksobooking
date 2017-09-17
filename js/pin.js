@@ -29,7 +29,7 @@
 
   var getStartPinData = function (loadPins) {
     var randData = window.helper.shuffleMass(loadPins);
-    loadPins = randData.slice(0,3);
+    loadPins = randData.slice(0, 3);
     map.appendChild(generateAllPins(loadPins));
   };
 

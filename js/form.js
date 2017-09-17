@@ -48,6 +48,7 @@
   var successHandler = function (successMessage) {
     var node = document.createElement('div');
     node.style.textAlign = 'center';
+    node.id = 'successMess';
     node.style.color = 'white';
     node.textContent = successMessage;
     node.style.backgroundColor = 'green';
@@ -60,9 +61,13 @@
   userForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     if (adressField.value === '') {
+      var successMess = document.querySelector('#successMess');
       userForm.style.border = '3px solid red';
       window.helper.errorHandler('Пожалуйста, задайте адрес! Переместите большую оранжевую точку на карте');
       adressField.placeholder = 'Задайте адрес на карте выше!';
+      if (successMess !== null) {
+        successMess.style.display = 'none';
+      }
     } else {
       var errorMess = document.querySelector('#errorMess');
       userForm.style.border = 'none';
