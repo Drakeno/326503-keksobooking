@@ -23,17 +23,14 @@
     return newPoint;
   };
 
-   var generateAllPins = function (pins) {
-    var fragment = document.createDocumentFragment();
-    for (var j = 0; j < pins.length; j++) {
-      fragment.appendChild(createPin(renderOfferPin[j]));
-    }
+  var generateAllPins = function (pins) {
+    return window.helper.createFragment(pins, renderOfferPin);
   };
 
   var getStartPinData = function (loadPins) {
-    loadPins = window.offers;
+    var randData = window.helper.shuffleMass(loadPins);
+    loadPins = randData.slice(0,3);
     map.appendChild(generateAllPins(loadPins));
-    window.helper.errorHandler();
   };
 
   var highlightOn = function (node) {
@@ -127,6 +124,7 @@
 
   window.offerPin = {
     pinLighted: highlightOn,
-    filtMass: applyFilters
+    filtMass: applyFilters,
+    getStartPinData: getStartPinData
   };
 })();

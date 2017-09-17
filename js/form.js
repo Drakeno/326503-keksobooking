@@ -64,7 +64,12 @@
       window.helper.errorHandler('Пожалуйста, задайте адрес! Переместите большую оранжевую точку на карте');
       adressField.placeholder = 'Задайте адрес на карте выше!';
     } else {
+      var errorMess = document.querySelector('#errorMess');
       userForm.style.border = 'none';
+      adressField.placeholder = '';
+      if (errorMess !== null) {
+        errorMess.style.display = 'none';
+      }
       window.backend.save(new FormData(userForm), successHandler, window.helper.errorHandler);
     }
   });

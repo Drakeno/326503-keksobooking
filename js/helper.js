@@ -34,10 +34,22 @@
     };
   };
 
+  var shuffleMass = function (array) {
+    let counter = array.length;
+    while (counter > 0) {
+      let index = Math.floor(Math.random() * counter);
+      counter--;
+      let temp = array[counter];
+      array[counter] = array[index];
+      array[index] = temp;
+    }
+    return array;
+  };
+
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style.zIndex = 100;
-    node.class = 'errorMess';
+    node.id = 'errorMess';
     node.style.backgroundColor = 'red';
     node.style.textAlign = 'center';
     node.style.position = 'absolute';
@@ -63,6 +75,7 @@
     escPressed: escPressed,
     errorHandler: errorHandler,
     debounceFunc: debounceFunc,
-    createFragment: createFragment
+    createFragment: createFragment,
+    shuffleMass: shuffleMass
   };
 })();

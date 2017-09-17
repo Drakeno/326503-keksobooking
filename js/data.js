@@ -12,6 +12,7 @@
       window.helper.errorHandler();
     }
     window.offers = offersArrays;
+    window.offerPin.getStartPinData(offersArrays);
   };
 
   var createUnicId = function () {
