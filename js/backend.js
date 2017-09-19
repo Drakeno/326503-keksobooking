@@ -6,8 +6,6 @@
   var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
 
-    xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
@@ -27,6 +25,7 @@
     xhr.timeout = 5000;
     xhr.open('GET', SERVER_URL + '/data');
     xhr.send();
+    xhr.responseType = 'json';
   };
 
   var save = function (data, onLoad, onError) {

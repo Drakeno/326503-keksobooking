@@ -51,12 +51,12 @@
   var appendPins = function (pin) {
     var pinMass = generateAllPins(pin);
     var oldPins = map.querySelectorAll('.pin:not(.pin__main)');
+    oldPins = [].slice.call(oldPins, null);
     highlightOff();
-    if (oldPins.length !== 0) {
-      for (var i = 0; i < oldPins.length; i++) {
-        map.removeChild(oldPins[i]);
-      }
-    }
+
+    oldPins.forEach(function (el) {
+      map.removeChild(el);
+    });
     map.appendChild(pinMass);
   };
 
@@ -118,8 +118,10 @@
   };
 
   filter.addEventListener('change', function () {
-    filterData = applyFilters();
-    updatePins();
+    if (window.offers.length > 1) {
+      filterData = applyFilters();
+      updatePins();
+    }
     window.showCard.hideDialog();
   });
 

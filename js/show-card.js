@@ -28,7 +28,9 @@ window.showCard = (function () {
   var closePopup = function () {
     var selectedPin = document.querySelector('.pin--active');
     offerInfo.classList.add('hidden');
-    selectedPin.classList.remove('pin--active');
+    if (selectedPin) {
+      selectedPin.classList.remove('pin--active');
+    }
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
