@@ -118,7 +118,7 @@
   };
 
   filter.addEventListener('change', function () {
-    if (window.offers.length > 1) {
+    if (window.offers) {
       filterData = applyFilters();
       updatePins();
     }
